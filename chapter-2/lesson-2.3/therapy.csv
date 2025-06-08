@@ -1,0 +1,101 @@
+﻿id;drug;date_start;dosage;frequency;patient_id
+25;Lidocaine Hydrochloride;24.08.2023;10;3;00-757-2720
+36;Colchicine;;8;1;00-757-2720
+56;Progesterone;;6;3;00-757-2720
+77;venlafaxine hydrochloride;;10;1;00-757-2720
+18;Phendimetrazine Tartrate;07.04.2024;10;3;01-635-7527
+94;sumatriptan succinate;;7;2;01-635-7527
+22;Rhizopus spp;12.04.2024;6;1;10-504-1015
+85;Amlodipine Besylate;08.05.2024;1;3;14-653-0437
+69;Fosinopril Sodium;21.05.2024;10;3;14-691-4936
+75;cetirizine hydrochloride;;4;1;14-691-4936
+26;Titanium Dioxide, Zinc Oxide;14.09.2023;2;1;15-307-0350
+37;Invisible Stick Antiperspirant and Deodorant;;5;2;15-307-0350
+65;Progesterone;;6;2;15-307-0350
+95;Neomycin sulfate;17.04.2024;7;3;16-427-3670
+42;TITANIUM DIOXIDE;20.01.2024;7;3;19-285-8881
+53;Acetaminophen,Dextromethorphan,Doxylamine;;4;1;19-285-8881
+84;cetirizine hydrochloride;;8;2;19-285-8881
+79;Isoniazid;28.10.2023;10;2;21-607-9496
+57;Triamterene and Hydrochlorothiazide;01.08.2023;10;3;21-963-9772
+66;False Ragweed;21.02.2024;7;2;22-465-9491
+92;Zinc Oxide;09.12.2023;1;3;22-672-6204
+2;Rosuvastatin calcium;16.09.2023;7;3;25-538-0113
+12;DIMETHICONE, ZINC OXIDE, OCTINOXATE;;9;2;25-538-0113
+90;Lidocaine Hydrochloride and Epinephrine Bitartrate;15.09.2023;7;3;26-320-3672
+30;Theophylline;19.03.2024;10;3;27-284-8331
+64;Dextromethorphan HBr and Guaifenesin;;10;3;27-284-8331
+48;GABAPENTIN;06.07.2024;6;1;28-716-5823
+60;Aspirin;09.08.2023;9;1;30-581-0227
+70;olanzapine;18.01.2024;3;2;30-729-6655
+96;Silver Sulfadiazine;11.11.2023;9;1;30-729-6655
+78;Goose Feathers;27.04.2024;5;3;31-172-2814
+76;Cephalexin;23.12.2023;8;1;32-227-9972
+86;Gatifloxacin;;5;2;32-227-9972
+16;Fludeoxyglucose F-18;20.10.2023;9;2;32-907-4094
+39;Acetaminophen, Aspirin (NSAID) and Caffeine;;2;3;32-907-4094
+49;Chlorpromazine Hydrochloride;;10;1;32-907-4094
+27;quinapril hydrochloride and hydrochlorothiazide;20.08.2023;4;3;34-921-1519
+44;Quetiapine Fumarate;;8;3;34-921-1519
+68;Acetaminophen, Dextromethorphan Hydrobromide, Doxylamine Succinate;30.08.2023;5;3;36-761-4056
+98;Neomycin sulfate, Polymyxin B Sulfate and Hydrocortisone;16.07.2024;9;3;37-154-6863
+31;Sertraline Hydrochloride;06.03.2024;3;1;37-355-5496
+54;Octinoxate and Oxybenzone;;5;2;37-355-5496
+62;POVIDONE-IODINE;24.08.2023;6;3;37-355-5496
+43;Triclosan;23.09.2023;1;2;37-778-0108
+9;Cetirizine Hydrochloride;10.03.2024;9;1;38-622-8146
+88;Naproxen Sodium;01.05.2024;1;3;38-627-5553
+8;Sodium Fluoride;04.06.2024;5;2;39-699-2147
+15;Verapamil Hydrochloride;;7;1;39-699-2147
+23;Levothyroxine Sodium;;2;3;39-699-2147
+5;galantamine hydrobromide;13.06.2024;3;3;40-887-4760
+38;OCTINOXATE, OCTISALATE, TITANIUM DIOXIDE;;10;1;40-887-4760
+71;Aconitum napellus, Argentum nitricum, Arnica montana, Valeriana officinalis;;1;3;40-887-4760
+34;Triclocarban;23.05.2024;7;2;41-954-7133
+73;Clindamycin Phosphate;;7;2;41-954-7133
+1;AZELASTINE HYDROCHLORIDE;16.07.2024;8;1;46-261-2843
+45;Galantamine;;3;2;46-261-2843
+97;HYDROQUINONE;;9;1;46-261-2843
+47;Neomycin Sulfate, Polymyxin B Sulfate, and Pramoxine Hydrochloride;08.10.2023;9;2;46-399-4109
+67;Capsaicin;;8;3;46-399-4109
+61;BENZALKONIUM CHLORIDE;17.06.2024;2;2;49-082-1805
+20;Lamotrigine;18.04.2024;9;1;51-059-0568
+6;tamsulosin hydrochloride;05.04.2024;2;3;51-103-4534
+7;bacitracin zinc;;5;2;51-103-4534
+82;Fexofenadine Hydrochloride;;2;2;51-103-4534
+81;Cefoxitin;27.05.2024;10;1;51-327-7496
+24;ondansetron hydrochloride;03.12.2023;10;1;52-729-1550
+51;alprazolam;28.04.2024;6;2;54-016-1338
+21;TRICLOSAN;18.12.2023;8;3;55-262-1297
+17;Sulfacetamide Sodium;19.05.2024;9;2;60-920-3612
+87;Homeopathic Liquid;11.12.2023;8;2;60-988-2272
+89;Technetium Tc-99m Generator;18.08.2023;5;2;62-421-8913
+40;minoxidil;15.08.2023;7;3;62-841-0178
+72;Sodium Fluoride;01.05.2024;1;2;64-781-7939
+11;TITANIUM DIOXIDE;29.09.2023;7;2;65-422-0838
+63;candida parapsilosis;;4;3;65-422-0838
+99;Doxazosin;;6;2;65-422-0838
+14;Flumazenil;04.07.2024;3;2;66-896-5632
+28;TERBINAFINE HYDROCHLORIDE;07.04.2024;6;2;67-085-5957
+19;Ropinirole Hydrochloride;14.02.2024;6;1;71-154-2781
+29;HYDROQUINONE;;1;1;71-154-2781
+50;Phenylephrine Hydrochloride;30.07.2023;3;1;73-826-3364
+74;Cyclopentolate Hydrochloride;09.03.2024;8;2;75-604-3629
+91;Acetazolamide;25.02.2024;1;3;76-768-3652
+59;Alder, Red Alnus rubra;04.07.2024;5;3;77-652-0239
+13;Alcohol;18.01.2024;3;3;81-685-5729
+46;Morphine Sulfate;05.09.2023;4;3;85-614-3818
+100;quinapril hydrochloride;;4;3;85-614-3818
+10;Benzalkonium Chloride;13.06.2024;8;1;86-309-4407
+83;PredniSONE;;10;3;86-309-4407
+58;HYDROQUINONE;30.03.2024;3;2;86-806-7469
+33;Triclosan;13.06.2024;10;3;92-519-6247
+41;GLYCERIN;;9;3;92-519-6247
+93;Ranitidine;21.12.2023;9;1;93-106-0146
+4;Omeprazole;26.02.2024;4;2;94-212-0381
+3;Temozolomide;28.10.2023;5;2;95-028-1367
+32;Titanium Dioxide;;4;2;95-028-1367
+80;Ranitidine;;2;1;95-028-1367
+35;CHLORPROMAZINE HYDROCHLORIDE;15.05.2024;9;3;95-622-8147
+52;Benzoyl Peroxide;11.03.2024;2;3;97-591-0712
+55;Lenalidomide;;7;2;97-591-0712

@@ -1,0 +1,92 @@
+rules:
+- expr: is_unique(id)
+  name: unique_id
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: '!is.na(age)'
+  name: empty_age
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: number_format(height, max_digit = 2, min_dig = 2)
+  name: height_format
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: age >= 0 & age <= 150
+  name: normal_age
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: (status != "single" & age >= 18) | (status == "single")
+  name: marriage_check
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: agegroup %in% c("child", "adult")
+  name: agegroup_check
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: is_complete(id, age, height)
+  name: fullfil_columns
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: if (status == "single") is.na(yearsmarried) else yearsmarried >= 0
+  name: marriage_length
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: is.numeric(height)
+  name: numeric_height
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+- expr: mean(age, na.omit = TRUE) >= 14
+  name: mean_age
+  label: ''
+  description: ''
+  created: 2025-06-08 23:32:56.575986
+  origin: command-line
+  meta:
+    language: validate 1.1.5
+    severity: error
+

@@ -1,0 +1,11 @@
+id,age,agegroup,height,status,yearsmarried
+1,21,adult,6.0,single,-1
+2,2,child,3,married, 0
+3,18,adult,5.7,married, 20
+4,221,elderly, 5,widowed, 2
+5,34,child, -7,married, 3
+6,21,adult,6.0,single,NA
+7,12,child,4.9,single,NA
+8,18,adult,5.8,single,NA
+9,78,elderly, 5,widowed, 0
+10,46,adult, 5.9,married, 12
