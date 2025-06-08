@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&Ucy;&scy;&tcy;&acy;&ncy;&ocy;&vcy;&kcy;&acy; &ocy;&kcy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&yacy; &dcy;&lcy;&yacy; &rcy;&acy;&bcy;&ocy;&tcy;&ycy; &scy; PostgreSQL</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="установка-окружения-для-работы-с-postgresql">Установка окружения для работы с PostgreSQL</h1>
+<ul>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-postgresql">Установка окружения для работы с PostgreSQL</a>
+<ul>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-postgres">Установка Postgres</a>
+<ul>
+<li><a href="#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D0%B8-%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D1%81%D0%BB%D1%83%D0%B6%D0%B1-postgres">Запуск и остановка служб Postgres</a></li>
+<li><a href="#%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D0%B9-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F">Настройка переменной окружения</a></li>
+</ul>
+</li>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-dbeaver">Установка DBeaver</a>
+<ul>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-dbeaver-%D0%BF%D0%BE%D1%80%D1%82%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B9-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D0%B8">Установка DBeaver портативной версии</a></li>
+</ul>
+</li>
+<li><a href="#%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA-postgresql-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-dbeaver">Подключение к PostgreSQL с помощью DBeaver</a></li>
+<li><a href="#%D1%80%D0%B0%D0%B7%D0%B2%D0%BE%D1%80%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%BE%D0%B9-%D0%B1%D0%B0%D0%B7%D1%8B-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-dbeaver">Разворачивание учебной базы данных с помощью DBeaver</a>
+<ul>
+<li><a href="#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F">Создание нового пользователя</a></li>
+<li><a href="#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9-%D0%B1%D0%B0%D0%B7%D1%8B-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85">Создание новой базы данных</a></li>
+<li><a href="#%D0%B2%D0%BE%D1%81%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B1%D0%B5%D0%BA%D0%B0%D0%BF%D0%B0">Восстановление бекапа</a></li>
+</ul>
+</li>
+<li><a href="#%D1%80%D0%B0%D0%B7%D0%B2%D0%BE%D1%80%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%BE%D0%B9-%D0%B1%D0%B0%D0%B7%D1%8B-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%BE%D0%B9-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B8-%D0%B8-psql">Разворачивание учебной базы данных с помощью командной строки и psql</a>
+<ul>
+<li><a href="#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%B5%D0%BC-psql">Запускаем psql</a></li>
+<li><a href="#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-1">Создание нового пользователя</a></li>
+<li><a href="#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9-%D0%B1%D0%B0%D0%B7%D1%8B-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-1">Создание новой базы данных</a></li>
+<li><a href="#%D0%B2%D0%BE%D1%81%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B1%D0%B5%D0%BA%D0%B0%D0%BF%D0%B0-1">Восстановление бекапа</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="установка-postgres">Установка Postgres</h2>
+<p>Ссылка для скачивания установочных файлов Postgres. <a href="https://www.postgresql.org/download/">https://www.postgresql.org/download/</a></p>
+<p>Прямая ссылка на файлы для Windows <a href="https://www.enterprisedb.com/downloads/postgres-postgresql-downloads">https://www.enterprisedb.com/downloads/postgres-postgresql-downloads</a></p>
+<p>Если актуальная версия не устанавливается, то можно воспользоваться версией 10.23 как наиболее универсальной под все платформы Windows. <a href="https://www.enterprisedb.com/postgresql-tutorial-resources-training?uuid=e9a60157-955a-4f24-a738-07cff51ccb43&amp;campaignId=70138000000rYFmAAM">https://www.enterprisedb.com/postgresql-tutorial-resources-training?uuid=e9a60157-955a-4f24-a738-07cff51ccb43&amp;campaignId=70138000000rYFmAAM</a></p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/postgres-download.png" alt="img/postgres-download.png"></p>
+<p>Запустите скачанный файл (если запросит права администратора, нажмите &quot;Да&quot;).</p>
+<p>В случае отсутствия установленного на компьютере Microsoft Visual C++, установка произойдет автоматически, данный компонент необходим для работы сервера.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/MVC.png" alt="Установка MVC"></p>
+<p>Далее произойдет открытие инсталлятора PostgreSQL Server, необходимо нажать “Next”</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL1.png" alt="Нажимаем Next &gt;"></p>
+<p>Выберите необходимый путь установки (лучше использовать предложенный)</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL2.png" alt="Выберите путь установки"></p>
+<p>Далее выберите следующие пункты, изображенные на скриншоте</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL3.png" alt="Выбираем PostgreSQL Server + Command Line Tools"></p>
+<p>Выберите место хранения PostgreSQL Server (лучше использовать стандартное)</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL4.png" alt="Выбираем место хранения PostgreSQL Server"></p>
+<p>Укажите пароль, он потребуется при создании подключения и нажмите Next. Если запроса на создание пароля нет, значит PostgreSQL Database Server уже был установлен ранее.</p>
+<p><strong>Внимание:</strong> Этот пароль очень важен, т.к. в случае его утраты вы потеряете доступ к серверу PostgreSQL и придется осуществлять переустановку. Для учебных целей можно установить пароль <code>postgres</code></p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL5.png" alt="Указываем пароль"></p>
+<p>Введите номер порта для подключения к серверу и нажмите Next (введите 5432, он считается стандартным):</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL6.png" alt="Указываем порт подключения к серверу"></p>
+<p>Нажмите Next</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL7.png" alt="Нажимаем Next"></p>
+<p>Нажмите Next</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL8.png" alt="Нажимаем Next"></p>
+<p>Нажмите Next и дождитесь окончания установки</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL9.png" alt="Нажимаем Next"></p>
+<p>Нажмите Finish</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL10.png" alt="Нажимаем Next"></p>
+<p>Зайдите в Процессы Диспетчера задач (правая кнопка мыши на панели задач -&gt; диспетчер задач) и убедитесь, что сервер запущен. В случае отсутствия, проверьте, что отображаются процессы для “всех пользователей”</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PostgreSQL11.png" alt="Проверяем в диспетчере задач наличие процессов PostgreSQL Server"></p>
+<p>Поздравляю, вы установили PostgreSQL Server.</p>
+<h3 id="запуск-и-остановка-служб-postgres">Запуск и остановка служб Postgres</h3>
+<p>Для запуска и остановки сервера Postgres мы будем пользоваться службами Windows. Для этого открываем меню Пуск &gt; Администрирование &gt; Службы.</p>
+<p>Если там нет такого пункта, то тогда просто открываем меню Пуск и в поле поиска вводим <em>Службы</em> или <em>Services</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/services-menu.png" alt="Пуск - Службы"></p>
+<p>Если и так не получается, то нажимаем комбинацию клавиш Win+R и в открывшемся окне вводим <code>services.msc</code>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/services-run.png" alt="Выполнить - Службы"></p>
+<p>В результате откроется окно всех запущенных служб и в нем можно найти наш сервер Postgres. При желании, с помощью правой кнопки мыши его можно остановить/запустить/перезапустить.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/services.png" alt="Служба Postgres"></p>
+<h3 id="настройка-переменной-окружения">Настройка переменной окружения</h3>
+<p>После установки сервера PostgreSQL его настройки должны прописаться в переменные окружения, чтобы мы могли запускать команды с помощью psql.</p>
+<p>Для проверки этого откройте терминал (в Windows комбинация клавиш Win+R и наберите <code>cmd</code>)</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/cmd.png" alt="cmd"></p>
+<p>В терминале наберите <code>psql -U postgres</code> и нажмите Enter. Если в ответ вы увидели сообщение <code>'psql' is not recognized as an internal or external command, operable program or batch file.</code> значит нужно добавить путь к установленному PostgreSQL в переменные окружения самостоятельно.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/cmd-psql-error.png" alt="psql error"></p>
+<p>Для этого откройте Панель управления Windows, выберите <em>Система</em>, выберите <em>Расширенные настройки системы</em> и в открывшемся окне на вкладке <em>Расширенные</em> внизу нажмите кнопку <em>Переменные окружения</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/environment-variables.png" alt="Переменные окружения"></p>
+<p>В открывшемся окне в разделе <em>Системные переменные</em> ищем переменную PATH и нажимаем <em>Изменить</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/environment-variables-edit.png" alt="Редактирование переменной окружения"></p>
+<p>В появившемся окне во второй строчке дописываем через точку с запятой путь к установленному серверу PostgesSQL. По умолчанию, это <code>C:\Program Files\PostgreSQL\10\bin</code>. Важно, чтобы на конце была папка <code>bin</code>, именно в ней лежат исполняемые файлы. Нажимаем ОК.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/edit-environment.png" alt="Добавляем переменную окружения"></p>
+<p>Во всем открытых окнах до этого тоже нажимаем ОК. Для Windows 7 необходимо перезагрузить систему, для более новых это обычно не требуется.</p>
+<p>После перезагрузки снова открываем терминал и пробуем ввести <code>psql -U postgres</code>. Если мы все прописали верно, то нам будет предложено ввести пароль, вводим <code>postgres</code>.
+(Символы не отображаются, это нормально) и нажимаем Enter. На экране появится новая строка с версией сервера и приглашением к вводу команд <code>postgres=#</code></p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/psql-success.png" alt="psql успешно"></p>
+<p>Для проверки, что все работает, можем ввести команду <code>SELECT version();</code></p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/psql-select-version.png" alt="проверка версии Postgres"></p>
+<p>Чтобы выйти из режима ввода команд psql наберите <code>\q</code> и нажмите Enter.</p>
+<h2 id="установка-dbeaver">Установка DBeaver</h2>
+<p>DBeaver — клиентское приложение для управления СУБД, которое даёт возможность администрировать структуру БД, выполнять запросы на SQL, получать результаты запросов, импортировать и экспортировать данные и т. д.</p>
+<p>Преимущество DBeaver в том, что он может работать с множеством различных СУБД.</p>
+<p>Для установки ПО переходим по ссылке <a href="https://DBeaver.io">на сайт сообщества DBeaver</a> и нажимаем кнопку загрузки.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/DBeaverDownloadButton.png" alt="Кнопка перехода в раздел скачивания на сайте DBeaver"></p>
+<p>Если актуальная версия не запускается, можно воспользоваться более старой из архива, которая работает на 32-разрядных системах, вплоть до Windows 7.</p>
+<p><a href="https://DBeaver.io/files/6.0.0/DBeaver-ce-6.0.0-x86-setup.exe">Версия 6.0</a></p>
+<p>Если при попытке запуска инсталлятора у вас запрашивает права администратора (и они у вас есть) - ждем “Да” (обычно запрашивать не должно).</p>
+<p>Нажимаем “Далее &gt;”</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Dbeaver1.png" alt="Нажимаем далее"></p>
+<p>Принимаем лицензионное соглашение, нажав &quot;Принимаю&quot;</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Dbeaver2.png" alt="Принимаем соглашение"></p>
+<p>Далее вам необходимо определиться кому будет доступен для запуска DBeaver. Выбирайте &quot;For me (User)&quot; и нажмите &quot;Далее &gt;&quot;.</p>
+<p>Далее вам необходимо поставить галочки напротив следующих пунктов (смотрим на скриншоте):</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Dbeaver3.png" alt="Выставляем DBeaver Community, Include Java, Associate .SQL files"></p>
+<p>После чего нам необходимо выбрать папку установки DBeaver (желательно использовать предложенную). Нажимаем &quot;Далее &gt;&quot;</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Dbeaver4.png" alt="Выбираем путь установки DBeaver"></p>
+<p>В следующем окне жмем &quot;Установить&quot;.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Dbeaver5.png" alt="Нажимаем установить"></p>
+<p>Далее инсталлятору потребуется некоторое время для установки, по окончанию нажимаем &quot;Завершить&quot;.</p>
+<h3 id="установка-dbeaver-портативной-версии">Установка DBeaver портативной версии</h3>
+<p>Можно воспользоваться и портативной версии, которая не требует установки. Достаточно будет скачать архив и распаковать его.</p>
+<p><a href="https://DBeaver.io/files/6.0.0/DBeaver-ce-6.0.0-win32.win32.x86.zip">Версия 6.0 портативная</a></p>
+<p>Для запуск Portable версии необходимо разархивировать скачанный zip - архив в удобное для вас место, после чего зайти в папку DBeaver и запустить DBeaver.exe.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/PortableDBeaver1.png" alt="Запусктите DBeaver.exe в разархивированной папке"></p>
+<h2 id="подключение-к-postgresql-с-помощью-dbeaver">Подключение к PostgreSQL с помощью DBeaver</h2>
+<p>Запустите DBeaver и нажмите на кнопку &quot;Новое соединение&quot;</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup1.png" alt="Открываем DBeaver и нажимаем кнопку &quot;Новое соединение&quot;"></p>
+<p>Выберите PostgreSQL и нажмите Далее</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup2.png" alt="Выбираем PostgreSQL"></p>
+<p>В поле Пароль укажите тот пароль, <strong>который указывали при установке PostgreSQL Database Server</strong>, (в данном руководстве это был <code>postgres</code>) локальный клиент выберите PostgreSQL (<em>версия</em>) или PostgreSQL Binaries, все остальные данные остаются без изменений. Нажмите Тест соединения.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup3.png" alt="Указываем параметры подключения"></p>
+<p>DBeaver предложит скачать необходимые драйвера, нажмите Скачать</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup4.png" alt="Скачиваем необходимые драйвера"></p>
+<p>Появится окно об успешном прохождении теста, нажмите ОК</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup5.png" alt="Нажимаем готово"></p>
+<p>На запрос о создании образца базы данных выберите Нет</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup6.png" alt="Нажимаем &quot;Нет&quot;"></p>
+<p>В левой части окна будет доступно подключение с пустой базой данных</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/Backup7.png" alt="Папка с БД"></p>
+<h2 id="разворачивание-учебной-базы-данных-с-помощью-dbeaver">Разворачивание учебной базы данных с помощью DBeaver</h2>
+<h3 id="создание-нового-пользователя">Создание нового пользователя</h3>
+<p>Создадим пользователя, которого будем использовать для работы с учебной базой данных.</p>
+<p>Для этого щелкнем правой клавишей по папке <em>Роли</em> и выберем <em>Создать новую роль</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/create-new-role-1.png" alt="Создание пользователя 1"></p>
+<p>Создадим пользователя с именем <code>dbuser</code> и паролем <code>dbpassword</code>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/saving-user.png" alt="Создание пользователя 2"></p>
+<p>Откроется окно детальных настроек пользователя. Внизу справа нажимаем <em>Сохранить</em>. В появившемся окне нажимаем <em>Применить</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/saving-user-2.png" alt="Создание пользователя 3"></p>
+<p>Щелкаем правой клавишей по папке <em>Роли</em> и нажимаем <em>Обновить</em>.</p>
+<h3 id="создание-новой-базы-данных">Создание новой базы данных</h3>
+<p>Теперь создадим учебную базу данных, владельцем которой будет свежесозданный пользователь. Правой клавишей щелкаем на базе данных <em>postgres</em> и выбираем <em>Создать новую базу данных</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/create-new-database-1.png" alt="Создание новой базы данных"></p>
+<p>Назовем нашу базу данных <code>demo_db</code> и ее владельцем поставим пользователя <code>dbuser</code>. Нажимаем ОК.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/create-new-database-2.png" alt="Создание новой базы данных"></p>
+<h3 id="восстановление-бекапа">Восстановление бекапа</h3>
+<p>Щелкаем правой клавишей мыши по базе данных <em>demo_db</em>, выбираем <em>Инструменты - Восстановить</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/restore-database-1.png" alt="Восстановление базы данных"></p>
+<p>В открывшемся окне выбираем формат <em>Custom</em> и файл бекапа <code>dump-demo_db.backup</code>. Нажимаем <em>Старт</em>.</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/restore-database-2.png" alt="Восстановление базы данных"></p>
+<p>Начнется процесс восстановления и по завершении появится сообщение.</p>
+<h2 id="разворачивание-учебной-базы-данных-с-помощью-командной-строки-и-psql">Разворачивание учебной базы данных с помощью командной строки и psql</h2>
+<h3 id="запускаем-psql">Запускаем psql</h3>
+<p>Откройте терминал (в Windows комбинация клавиш Win+R и наберите <code>cmd</code>)</p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/cmd.png" alt="cmd"></p>
+<p>В терминале наберите <code>psql -U postgres</code> и нажмите Enter.</p>
+<p>Будет предложено ввести пароль, вводим <code>postgres</code>.
+(Символы не отображаются, это нормально) и нажимаем Enter. На экране появится новая строка с версией сервера и приглашением к вводу команд <code>postgres=#</code></p>
+<p><img src="file:////home/rymbln/code/data-science-technologies-in-medicine-2023-r/01-DB-Intro/img/psql-success.png" alt="psql успешно"></p>
+<p>Если этого не произошло, необхоидимо настроить переменные окружения.</p>
+<h3 id="создание-нового-пользователя-1">Создание нового пользователя</h3>
+<p>В терминале вводим</p>
+<pre><code class="language-sql">
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">USER</span> dbuser NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN PASSWORD <span class="hljs-string">&#x27;dbpassword&#x27;</span>;
+</code></pre>
+<h3 id="создание-новой-базы-данных-1">Создание новой базы данных</h3>
+<p>В терминале вводим</p>
+<pre><code class="language-sql"><span class="hljs-keyword">CREATE</span> DATABASE demo_db <span class="hljs-keyword">WITH</span> OWNER <span class="hljs-operator">=</span> dbuser ENCODING <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;utf8&#x27;</span> CONNECTION LIMIT <span class="hljs-operator">=</span> <span class="hljs-number">-1</span>;
+</code></pre>
+<p>После создания базы данных можно выйти из psql набрав <code>\q</code> и нажав Enter.</p>
+<h3 id="восстановление-бекапа-1">Восстановление бекапа</h3>
+<p>В терминале вводим</p>
+<pre><code>psql -U postgres -d demo_db -f C:\Users\rymbln\Desktop\dump-demo_db.sql
+</code></pre>
+<p>где <code>C:\User\rymbln\Desktop\dump-demo_db.sql</code> путь к файлу с бекапом.</p>
+<p>Вводим пароль <code>postgres</code> и начнется восстановление.</p>
+
+        
+        
+    </body>
+    </html>
