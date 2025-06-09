@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_HEM_HEM</Target>
+		<RuleRef OID="I_LOCAL_HEM_HEM_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Hemoglobin is out of the expected range (12-17.5 gm/dL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_HEM_HEM_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Hemoglobin is out of the expected range (120-175 gm/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_HEM_RBC</Target>
+		<RuleRef OID="I_LOCAL_HEM_RBC_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>RBC is out of the expected range (4-6 trillion cells/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_HEM_RBC_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>RBC is out of the expected range (4-6 million cells/mcL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>	
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_HEM_WBC</Target>
+		<RuleRef OID="I_LOCAL_HEM_WBC_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>WBC is out of the expected range (3.5-10.5 billion cells/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_HEM_WBC_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>WBC is out of the expected range (3,500-10,500 cells/mcL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>	
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_HEM_RHE</Target>
+		<RuleRef OID="I_LOCAL_HEM_RHE_ALL">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Rheumatoid Factor is out of the expected range (0-60 IU/mL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_CH_POT</Target>
+		<RuleRef OID="I_LOCAL_CH_POT_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Potassium is out of the expected range (3.5-5 mEq/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_CH_POT_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Potassium is out of the expected range (3-5.5 mmol/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+		<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_CH_CAL</Target>
+		<RuleRef OID="I_LOCAL_CH_CAL_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Calcium is out of the expected range (8.5-10.2 mg/dL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_CH_CAL_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Calcium is out of the expected range (2-3 mmol/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+		<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_CH_ALB</Target>
+		<RuleRef OID="I_LOCAL_CH_ALB_A">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Albumin is out of the expected range (3.4-5.4 g/dL). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_CH_ALB_B">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Albumin is out of the expected range (5-8 umol/L). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_LOCAL_HEM_HEM_A" Name="Local Lab: Site A, C, E Hemoglobin">
+		<Description>Site A, C, E: Hemoglobin should be between 12 and 17.5 gm/dL</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_HEM_HEM lt 12 or I_LOCAL_HEM_HEM gt 17.5)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_HEM_B" Name="Local Lab: Site B, D Hemoglobin">
+		<Description>Site B, D: Hemoglobin should be between 120 and 175 gm/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_HEM_HEM lt 120 or I_LOCAL_HEM_HEM gt 175)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_RBC_A" Name="Local Lab: Site A, C, E RBC">
+		<Description>Site A, C, E: RBC should be between 4 and 6 trillion cells/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_HEM_RBC lt 4 or I_LOCAL_HEM_RBC gt 6)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_RBC_B" Name="Local Lab: Site B, D RBC">
+		<Description>Site B, D: RBC should be between 4 and 6 million cells/mcL</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_HEM_RBC lt 4 or I_LOCAL_HEM_RBC gt 6)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_WBC_A" Name="Local Lab: Site A, C, E WBC">
+		<Description>Site A, C, E: WBC should be between 3.5 and 10.5 billion cells/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_HEM_WBC lt 3.5 or I_LOCAL_HEM_WBC gt 10.5)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_WBC_B" Name="Local Lab: Site B, D WBC">
+		<Description>Site B, D: WBC should be between 3,500 and 10,500 cells/mcL</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_HEM_WBC lt 3500 or I_LOCAL_HEM_WBC gt 10500)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_HEM_RHE_ALL" Name="Local Lab: All Site Rhe factor">
+		<Description>All Sites: Rhe factor should be between 0 and 60 IU/mL</Description>
+		<Expression>I_LOCAL_HEM_RHE lt 0 or I_LOCAL_HEM_RHE gt 60</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_CH_POT_A" Name="Local Lab: Site A, C, E Potassium">
+		<Description>Site A, C, E: Potassium should be between 3.5 and 5 mEq/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_CH_POT lt 3.5 or I_LOCAL_CH_POT gt 5)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_CH_POT_B" Name="Local Lab: Site B, D Potassium">
+		<Description>Site B, D: Potassium should be between 3 and 5.5 mmol/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_CH_POT lt 3 or I_LOCAL_CH_POT gt 5.5)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_CH_CAL_A" Name="Local Lab: Site A, C, E Calcium">
+		<Description>Site A, C, E: Calcium should be between 8.5 and 10.2 mg/dL</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_CH_CAL lt 8.5 or I_LOCAL_CH_CAL gt 10.2)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_CH_CAL_B" Name="Local Lab: Site B, D Calcium">
+		<Description>Site B, D: Calcium should be between 2 and 3 mmol/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_CH_CAL lt 2 or I_LOCAL_CH_CAL gt 3)</Expression>
+	</RuleDef>
+		<RuleDef OID="I_LOCAL_CH_ALB_A" Name="Local Lab: Site A, C, E Albumin">
+		<Description>Site A, C, E: Albumin should be between 3.4 and 5.4 g/dL</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 101 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 103 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 105) and (I_LOCAL_CH_ALB lt 3.4 or I_LOCAL_CH_ALB gt 5.4)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_CH_ALB_B" Name="Local Lab: Site B, D Albumin">
+		<Description>Site B, D: Albumin should be between 5 and 8 umol/L</Description>
+		<Expression>(SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 102 or SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB eq 104) and (I_LOCAL_CH_ALB lt 5 or I_LOCAL_CH_ALB gt 8)</Expression>
+	</RuleDef>
+</RuleImport>

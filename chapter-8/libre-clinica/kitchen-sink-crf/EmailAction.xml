@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+    <RuleAssignment>
+        <Target>F_KITCHENSINK.IG_KITCH_EMAILACTION.I_KITCH_EML1SMT</Target>
+        <RuleRef OID="I_OPENC_EML1SMT">
+            <EmailAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true"
+                    InitialDataEntry="true" DoubleDataEntry="true"
+                    ImportDataEntry="false" Batch="false"/>
+                <Message>[Your message here] Example:
+                    Upon clicking save, an email will be sent to user@example.com</Message>
+                <To>user@example.com</To>
+            </EmailAction>
+        </RuleRef>
+    </RuleAssignment>
+    <RuleDef OID="I_OPENC_EML1SMT" Name="I_OPENC_EML1SMT">
+        <Description>I_OPENC_EML1SMT</Description>
+        <Expression>I_KITCH_EML1SMT eq 1</Expression>
+    </RuleDef>
+</RuleImport>

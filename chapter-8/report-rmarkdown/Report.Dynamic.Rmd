@@ -1,0 +1,283 @@
+---
+title: "Пример динамического отчета с использованием RMarkdown"
+author: "Иван Трушин"
+date: "2023-11-03"
+output:
+  html_document:
+    toc: yes
+    # df_print: kable
+  slidy_presentation: default
+  word_document:
+    toc: yes
+    # df_print: kable
+    reference_doc: templates/template.docx
+  powerpoint_presentation:
+    toc: no
+    # df_print: kable
+    reference_doc: templates/template.pptx
+  ioslides_presentation: default
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: header.tex
+always_allow_html: yes
+---
+
+```{r загрузка пакетов и функций, include=FALSE, message=FALSE}
+library(medicaldata)
+library(tidyverse)
+library(leaflet)
+library(reactable)
+library(htmltools)
+library(plotly)
+library(flextable)
+library(gt)
+library(kableExtra)
+
+FtoC <- function(temp){
+  c <- (temp - 32) * 5 / 9
+  return(c)
+}
+
+# русификация reactable таблиц
+options(reactable.language = reactableLang(
+  pageSizeOptions   = "показано {rows} значений",
+  pageInfo          = "с {rowStart} по {rowEnd} из {rows} строк",
+  pagePrevious      = "назад",
+  pageNext          = "вперед",
+  searchPlaceholder = "Поиск...",
+  noData            = "Значения не найдены"
+))
+
+# Настройки flextable по умолчанию
+set_flextable_defaults(
+  font.family = "Arial", font.size = 10, 
+  border.color = "gray")
+
+# Вместо NA при выводе kable будем использовать пустую строку
+options(knitr.kable.NA = '') 
+```
+
+# Главный заголовок документа
+
+## Заголовок второго уровня: Текст
+
+Абзац простого текста. Простой текст можно писать так как он есть.
+При необходимости можно разбивать текст на абзацы. Отдельные слова можно выделять **жирным шрифтом** или *курсивом*
+
+Для этого достаточно начать писать с новой строки.
+
+> Отдельно можно выделять примечания
+
+### Заголовок третьего уровня: Списки
+
+Маркированные:
+
+- Первый пункт
+- Второй пункт
+- Третий пункт
+
+Так и нумерованные:
+
+1. Первый пункт
+2. Второй пункт
+3. Третий пункт
+
+### Заголовок третьего уровня: Ссылки
+
+Ссылки оформляются следующим образом:
+
+[Яндекс](https://ya.ru/)
+
+## Картинки из интернета
+
+Можно добавлять изображения как из интернета
+
+![Картинка из интернета](https://posit.co/wp-content/uploads/2022/10/rstudio-ide-dlpg-hero-test.png)
+
+## Картинки с компьютера
+
+Можно добавлять изображения с диска
+
+![Картинка с диска](templates/cheers.jpg)
+
+## Пример кода на R
+
+В примере ниже выводится и код, и результаты его выполнения:
+
+```{r пример кода с графиком, fig.cap = "Пациенты набора данных cytomegalovirus", out.width='50%', fig.align='center'}
+# Подготавливаем таблицу
+data_tmp <- cytomegalovirus %>% 
+  mutate(
+    sex = ifelse(sex == 1, "Мужской", "Женский"),
+    diagnosis.type = ifelse(diagnosis.type == 1, "lymphoid", "myeloid")
+  )
+# Выводим таблицу
+data_tmp %>% select(ID, sex, diagnosis.type, diagnosis, age) %>% head()
+# Выводим график
+hist(data_tmp$age, xlim=c(18,80), col="green",
+     main="Возраст пациентов", xlab="Возраст, лет", ylab="Количество")
+
+```
+
+Здесь выводится код и результат его выполнения.
+
+```{r код и результат}
+data_tmp %>% select(ID, sex, diagnosis.type, diagnosis, age) %>% glimpse()
+```
+
+Здесь выводится только код.
+
+```{r только код, eval = FALSE}
+data_tmp %>% select(ID, sex, diagnosis.type, diagnosis, age) %>% glimpse()
+```
+
+Здесь выводится только результат.
+
+```{r только результат, echo = FALSE}
+data_tmp %>% select(ID, sex, diagnosis.type, diagnosis, age) %>% glimpse()
+```
+
+## Вставка значения в текст
+
+```{r значение в тексте}
+patients_count <- nrow(data_tmp)
+```
+
+В исследовании участвовало `r patients_count` пациентов.
+
+## Использование скриптов из файлов для подготовки вычислений
+
+```{r, include=FALSE, message=FALSE}
+source("./generate-data-table.R")
+```
+
+## Таблицы
+
+Можно просто выводить таблицы как они есть
+
+```{r вывод таблицы, echo=FALSE}
+data
+```
+## Таблицы с оформлением
+
+Можно адаптировать оформление для печатных документов и добавить к ним заголовок. По умолчанию в RMarkdown для вывода таблиц используется функция `kable` из пакета `knitr` https://bookdown.org/yihui/rmarkdown-cookbook/kable.html
+
+```{r table-kable, echo=FALSE, out.width='100%'}
+data %>%  
+  knitr::kable(caption = 'Распределение пациентов по диагнозам', 
+      col.names = c("Диагноз","Пол","Случаев", "В группе","Всего"),
+      align = "llcrr", digits = 2)
+```
+
+## Таблицы с пакетом kableExtra
+
+Для дополнительных стилей оформления таблиц `kable` можно использовать стили из `kableExtra` https://bookdown.org/yihui/rmarkdown-cookbook/kableextra.html
+
+```{r, include=FALSE, message=FALSE}
+library(kableExtra)
+```
+
+### Простые в стиле Bootstrap.
+
+```{r kable-bootstrap, echo=FALSE, out.width='100%'}
+data %>% 
+  kbl(caption = 'Распределение пациентов по диагнозам', 
+      col.names = c("Диагноз","Пол","Случаев", "В группе","Всего"),
+      align = "llcrr", digits = 2) %>%
+  kable_styling()
+```
+
+### Таблицы с подсветкой строк при наведении.
+
+```{r kable-hover, echo=FALSE}
+data %>% 
+  kbl(caption = 'Распределение пациентов по диагнозам', 
+      col.names = c("Диагноз","Пол","Случаев", "В группе","Всего"),
+      align = "llcrr", digits = 2) %>%
+  kable_paper("hover", full_width = F)
+```
+
+### Таблицы в стиле для печати 1
+
+```{r kable-classic, echo=FALSE, out.width='100%'}
+data %>% 
+  kbl(caption = 'Распределение пациентов по диагнозам', 
+      col.names = c("Диагноз","Пол","Случаев", "В группе","Всего"),
+      align = "llcrr", digits = 2) %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+### Таблицы в стиле для печати 2
+
+```{r kable-classic2, echo=FALSE, out.width='100%'}
+data %>% 
+  kbl(caption = 'Распределение пациентов по диагнозам', 
+      col.names = c("Диагноз","Пол","Случаев", "В группе","Всего"),
+      align = "llcrr", digits = 2) %>%
+  kable_classic_2(full_width = F)
+```
+
+## Таблицы с пакетом flextable
+
+```{r, include=FALSE, message=FALSE}
+source("./generate-ft-table.R")
+```
+
+```{r flextable, echo=FALSE}
+ft_table
+```
+
+## Таблицы с пакетом gt
+
+```{r, include=FALSE, message=FALSE}
+source("./generate-gt-table.R")
+```
+
+```{r gt, echo=FALSE}
+gt_table
+```
+
+## Интерактивные таблицы
+
+Любую таблицу можно превратить в интерактивную с помощью пакета `reacttable` https://glin.github.io/reactable/
+
+```{r reactable, echo=FALSE, out.width='100%'}
+reactable(cytomegalovirus, filterable = TRUE, searchable = TRUE, striped = TRUE)
+```
+
+## Карты
+
+```{r leaflet, echo=FALSE, out.width='100%'}
+# https://rstudio.github.io/leaflet/
+leaflet() %>% addTiles() %>%
+  setView(32.06006102596806, 54.76838259349348, zoom = 17) %>%
+  addPopups(
+    32.06006102596806, 54.76838259349348,
+    'Смоленский государственный медицинский университет'
+  )
+```
+
+
+## Графики
+
+Можно вставлять как обычные графики `ggplot2`
+
+```{r ggplot2-load, echo=FALSE, eval=FALSE}
+library(ggplot2)
+```
+
+```{r ggplot2, echo=FALSE}
+gg <- ggplot(cytomegalovirus %>% mutate(sex = ifelse(sex == 1, "M", "F")), aes(sex, age)) + geom_boxplot() +  theme_bw()
+gg
+```
+
+Так и превращать их в интерактивные с помощью пакета `plotly` https://plotly.com/ggplot2/getting-started/
+
+```{r plotly-load, echo=FALSE, eval=FALSE}
+library(plotly)
+```
+
+```{r plotly, echo=FALSE}
+ggplotly(gg)
+```

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_VERIFICATION.IG_VERIF_UNGROUPED.I_VERIF_VERI_DATE</Target>
+		<RuleRef OID="I_VERIF_VERI_DATE_VERIFY">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Date of Informed Consent does not match Date of Informed Consent provided on Demographics and/or the Inclusion/Exclusion Criteria form. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_VERIF_VERI_DATE_VERIFY" Name="Verification IC: Verify DT Inf Cons. with Demographics and Inc/Ex form">
+		<Description>Date of Informed Consent should match Date of Informed Consent on Demographics form.</Description>
+		<Expression>(I_VERIF_VERI_DATE ne F_DEMOGRAPHICS.IG_DEMOG_DEMO.I_DEMOG_DEM_DTIC) or (I_VERIF_VERI_DATE ne F_INCLUSIONEXC.IG_INCLU_ELIGIBILITY.I_INCLU_IN_DT_IC)</Expression>
+	</RuleDef>
+</RuleImport>

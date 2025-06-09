@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+    <RuleAssignment>
+        <Target>F_KITCHENSINK.IG_KITCH_SHOWACTION.I_KITCH_SI1BPHR</Target>
+        <RuleRef OID="SHOWSI1BPHR">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true"
+                    InitialDataEntry="true" DoubleDataEntry="true"
+                    ImportDataEntry="false" Batch="false"/>
+                <Message>[Your message here] Example: Please enter blood
+                    pressure and heart rate measurements in the table below.</Message>
+                <DestinationProperty OID="IG_KITCH_INSERTACTION"/>
+            </ShowAction>
+            <InsertAction IfExpressionEvaluates="true">
+                <DestinationProperty
+                    OID="IG_KITCH_INSERTACTION[1].I_KITCH_SI2MEASR" Value="Systolic BP">
+                    <ValueExpression/>
+                </DestinationProperty>
+                <DestinationProperty
+                    OID="IG_KITCH_INSERTACTION[2].I_KITCH_SI2MEASR" Value="Diastolic BP">
+                    <ValueExpression/>
+                </DestinationProperty>
+                <DestinationProperty
+                    OID="IG_KITCH_INSERTACTION[3].I_KITCH_SI2MEASR" Value="Heart Rate">
+                    <ValueExpression/>
+                </DestinationProperty>
+                <Run AdministrativeDataEntry="true"
+                    InitialDataEntry="true" DoubleDataEntry="true"
+                    ImportDataEntry="false" Batch="false"/>
+            </InsertAction>
+        </RuleRef>
+    </RuleAssignment>
+    <RuleDef OID="SHOWSI1BPHR" Name="Show and Insert Rule Example">
+        <Description>Show the grid and insert default values</Description>
+        <Expression>I_KITCH_SI1BPHR eq 1</Expression>
+    </RuleDef>
+</RuleImport>

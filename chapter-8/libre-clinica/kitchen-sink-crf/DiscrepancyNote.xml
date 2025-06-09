@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+    <RuleAssignment>
+        <Target>F_KITCHENSINK.IG_KITCH_DISCREPANCYNOTE.I_KITCH_DN2DATE</Target>
+        <RuleRef OID="I_OPENC_DN1EXAM">
+            <DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true"
+                    InitialDataEntry="true" DoubleDataEntry="true"
+                    ImportDataEntry="false" Batch="false"/>
+                <Message>[Your message here] Example:
+                    If &quot;Completed&quot; or &quot;In Progress&quot;
+                    was selected, please provide the Date.</Message>
+            </DiscrepancyNoteAction>
+        </RuleRef>
+    </RuleAssignment>
+    <RuleDef OID="I_OPENC_DN1EXAM" Name="I_OPENC_DN1EXAM">
+        <Description>I_OPENC_DN1EXAM</Description>
+        <Expression>I_KITCH_DN1EXAM eq 1 or I_KITCH_DN1EXAM eq 2</Expression>
+    </RuleDef>
+</RuleImport>

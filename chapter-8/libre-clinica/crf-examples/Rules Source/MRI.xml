@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_MRIFORM.IG_MRIFO_MRI.I_MRIFO_MRI_YN</Target>
+		<RuleRef OID="I_MRIFO_MRI_YN_SHOWHIDE">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>You indicated the MRI was not performed or is N/A. Please explain.</Message>
+				<DestinationProperty OID ="I_MRIFO_MRI_NO"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>This item should only be completed if the MRI was not performed or is N/A. Please update your response.</Message>
+				<DestinationProperty OID ="I_MRIFO_MRI_NO"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_MRIFO_MRI_YN_SHOWHIDE" Name="MRI: Show/Hide">
+		<Description>Show or Hide 'If No or N/A, explain' field based on answer to previous question.</Description>
+		<Expression>I_MRIFO_MRI_YN eq 2 or I_MRIFO_MRI_YN eq 3</Expression>
+	</RuleDef>
+</RuleImport>

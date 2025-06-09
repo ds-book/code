@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_ADVERSEEVENT_5982.IG_ADVER_AELOG.I_ADVER_AE_DTRE</Target>
+		<RuleRef OID="I_ADVER_AE_DTRE_VERIFYDATES">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Date of Resolution should not occur prior to the Date of Onset. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_ADVERSEEVENT_5982.IG_ADVER_AELOG.I_ADVER_AE_OTOUT</Target>
+		<RuleRef OID="I_ADVER_AE_OTOUT_COMP">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>'Other' should only be completed if 'Other' was selected for Outcome. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_ADVER_AE_OTOUT_BLANK">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>'Other' was selected for Outcome. Please specify in the field provided.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_ADVERSEEVENT_5982.IG_ADVER_AELOG.I_ADVER_AE_OUT</Target>
+		<RuleRef OID="I_ADVER_AE_OUT_RESDATE">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>'Ongoing' was selected for Outcome but a Date of Resolution was entered. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_ADVER_AE_OUT_ONGOING">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>If not 'Ongoing', please provide the Date of Resolution.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_ADVER_AE_DTRE_VERIFYDATES" Name="AE Log: Verify Date Onset vs Date Resolution">
+		<Description>Date of Resolution should not occur prior to the Date of Onset.</Description>
+		<Expression>I_ADVER_AE_DTRE lt I_ADVER_AE_DTON</Expression>
+	</RuleDef>
+	<RuleDef OID="I_ADVER_AE_OTOUT_COMP" Name="AE Log: Other should be blank">
+		<Description>Other should be blank unless selected for Outcome.</Description>
+		<Expression>I_ADVER_AE_OTOUT ne "" and (I_ADVER_AE_OUT eq 1 or I_ADVER_AE_OUT eq 2 or I_ADVER_AE_OUT eq 3 or I_ADVER_AE_OUT eq 4)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_ADVER_AE_OTOUT_BLANK" Name="AE Log: Other should be completed">
+		<Description>If Other is selected for Outcome, the 'If Other, specify' field should be completed.</Description>
+		<Expression>I_ADVER_AE_OTOUT eq "" and I_ADVER_AE_OUT eq 5</Expression>
+	</RuleDef>
+	<RuleDef OID="I_ADVER_AE_OUT_RESDATE" Name="AE Log: Date Resolution not Ongoing">
+		<Description>If Date of Resolution is provided, 'Ongoing' should not be selected for Outcome.</Description>
+		<Expression>I_ADVER_AE_OUT eq 3 and I_ADVER_AE_DTRE ne ""</Expression>
+	</RuleDef>
+	<RuleDef OID="I_ADVER_AE_OUT_ONGOING" Name="AE Log: Date Resolution Required">
+		<Description>Date of Resolution should be provided if any option except 'Ongoing' was selected for Outcome.</Description>
+		<Expression>(I_ADVER_AE_OUT eq 1 or I_ADVER_AE_OUT eq 2 or I_ADVER_AE_OUT eq 4 or I_ADVER_AE_OUT eq 5) and I_ADVER_AE_DTRE eq ""</Expression>
+	</RuleDef>
+</RuleImport>

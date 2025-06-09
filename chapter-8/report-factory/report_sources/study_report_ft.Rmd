@@ -1,0 +1,182 @@
+---
+title: "Study Report"
+author: "Ivan Trushin"
+params:
+  age.group: ""
+  report.date: ""
+output:
+  word_document: 
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, fig.width = 8, fig.height = 6, dpi = 70)
+```
+
+```{r load-packages, include=FALSE, echo=FALSE, message=FALSE}
+if (!require(here)) { 
+  install.packages("here")
+  library(here)
+}
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+  library(tidyverse)
+}
+if (!require(flextable)) {
+  install.packages("flextable")
+  library(flextable)
+}
+if (!require(officer)) {
+  install.packages("officer")
+  library(officer)
+}
+if (!require(ggplot2)) {
+  install.packages("ggplot2")
+  library(ggplot2)
+}
+```
+
+```{r prepare-data, include=FALSE}
+source(here("scripts", "prepare-clean-data.R"))
+```
+
+```{r load-data, include=FALSE}
+df <- readRDS(here("data", "clean", "cytomegalovirus.rds"))
+age_group <- "все"
+report_date <- Sys.Date()
+if (params$age.group != "") { 
+  age_group <- params$age.group
+  df <- df %>% filter(age.group == params$age.group)
+}
+if (params$report.date != "") { 
+  report_date <- params$report_date
+  }
+```
+
+
+```{r patient-counts, include=FALSE}
+amount <- nrow(df)
+if (params$report.date == "") { 
+  params$report.date == Sys.Date()
+  }
+```
+
+#### Дата формирования отчета: `r report_date`
+
+## Исследуемая популяция
+
+Количество пациентов в группе "`r age_group`" составляет `r amount` человек.
+
+
+
+## Структура диагнозов
+
+
+### Таблица
+
+```{r распределение диагнозов по полу, echo=FALSE}
+# Посчитаем статистику по диагнозам и полу пациентов
+diag <- df %>% 
+  select(sex, diagnosis.type) %>% 
+  rename(diagnosis = 'diagnosis.type') %>% 
+  group_by(sex, diagnosis) %>% 
+  summarise(n = n(), .groups = 'drop') %>%
+  group_by(diagnosis) %>%
+  mutate(total_diag = sum(n), percent_diag = (n / total_diag) * 100) %>%
+  ungroup() %>%
+  mutate(total_overall = sum(n), percent_overall = (n / total_overall) * 100) %>%
+  select(diagnosis, sex, n, percent_diag, percent_overall) %>% 
+  arrange(diagnosis, sex)
+
+# Сформируем строку итогов
+diag_sum <- diag %>% 
+  group_by() %>% 
+  summarise(n = sum(n), percent_overall = sum(percent_overall)) %>% 
+  ungroup() %>% 
+  mutate(diagnosis = "Всего", sex = "Всего", percent_diag = NA)
+
+# Объединим две таблицы
+diag_table <- bind_rows(diag, diag_sum)
+diag_sum <- NULL
+```
+
+```{r вывод результата, echo=FALSE}
+diag_table_ft <- diag_table %>% 
+  flextable() %>% 
+  # Разделим столбцы
+  separate_header(split = "_") %>% 
+  labelizor(part = "header", 
+            labels = c("diagnosis" = "Диагноз", 
+                       "sex" = "Пол",
+                       "n" = "Случаев",
+                       "percent" = "Процент",
+                       "diag" = "в группе",
+                       "overall" = "всего")) %>% 
+  # Зададим заголовки и примечания для таблицы
+  set_caption("Типы диагнозов") %>% 
+  add_header_lines("Вторая строка заголовка") %>% 
+  add_footer_lines("На основании данных из набора cytomegalovirus") %>% 
+  flextable::footnote(i = 3, j = 4, part = "header",
+           ref_symbols = "1", value = as_paragraph("Доля пациента в рамках диагноза")) %>%  
+  flextable::footnote(i = 3, j = 5, part = "header",
+           ref_symbols = "2", value = as_paragraph("Доля пациентов в рамках исследования")) %>% 
+  # Форматирование значений
+  set_formatter(diagnosis = str_to_title) %>% 
+  colformat_double(digits = 2, suffix = "%") %>% 
+  # Шрифты
+  font(fontname = "Times New Roman", i = 1, part = "header") %>% 
+  font(fontname = "Times New Roman", part = "footer") %>% 
+  fontsize(size = 9, part = "footer") %>% 
+  italic(part = "footer") %>% 
+  bold(i = c(2,3), part = "header") %>% 
+  italic(j = "diagnosis", part = "body")  %>% 
+  bold(i = ~ diagnosis == "Всего", part = "body") %>% 
+  # Выравнивание
+  align_nottext_col(align = "right") %>% 
+  align_text_col(align = "left") %>% 
+  valign(valign = "center", part = "header") %>% 
+  align(i = 2, j = 4, align = "center", part = "header") %>% 
+  align(align = "right", part = "footer") %>% 
+  align(i = c(2,3), align = "left", part = "footer") %>%
+  align(align = "center", j = "n", part = "body") %>% 
+  align(i = 2, j = "n", align = "center", part = "header") %>% 
+  line_spacing(part = "footer", space = 0.25) %>% 
+  # Объединение ячеек 
+  merge_v(j = "diagnosis") %>% 
+  merge_at(i = ~ diagnosis == "Всего", j = c(1:2), part = "body")  %>% 
+  valign(j = 1, valign = "top", part = "body")  %>% 
+  # Выделение границ
+  hline(part = "header", border = fp_border(color="black", width = 1)) %>% 
+  hline(part = "body", border = fp_border(color="gray", width = 1)) %>% 
+  surround(i = 2, j = 3, part = "header", 
+           border.right = fp_border(color="black", width = 1) ) %>% 
+  surround(j = 3, part = "body", 
+           border.right = fp_border(color="black", width = 1) ) %>% 
+  surround(i = ~ diagnosis == "Всего", 
+           border.top = fp_border(color="black", width = 2), 
+           border.bottom = fp_border(color="black", width = 2) ) %>% 
+  # Окрашивание элементов
+  bg(bg = "grey95", part = "header") %>% 
+  bg(i = ~ percent_diag > 50, bg = "#ffa50040") %>% 
+  color(i = ~ percent_diag > 50, j = 4, color = "red") %>% 
+  highlight(i = ~ percent_diag > 50, j = 3, color = "pink") %>% 
+  # Автоматическая ширина столбцов
+  autofit()
+diag_table_ft
+```
+
+### График
+
+```{r создание графика, echo=FALSE}
+# Построение stackbar графика
+diag_graph <- diag %>% 
+  mutate(
+    diagnosis = case_when(is.na(diagnosis) ~ "Unspecified",
+                          .default = diagnosis)
+  )
+
+ggplot(diag_graph, aes(x = sex, y = n, fill = diagnosis)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Пол", y = "Количество диагнозов", fill = "Диагноз") +
+  theme_minimal()
+```

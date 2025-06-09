@@ -1,0 +1,44 @@
+# Описание сервисов, которые будут запущены в кластере
+services: 
+  # База данных
+  postgres:
+    image: postgres:14 # Используемый образ PostgreSQL 14
+    container_name: database # Название контейнера для отображения
+    hostname: database # Название хоста контейнера внутри сети docker-compose
+    restart: unless-stopped  # Контейнер будет перезапускаться в случае сбоя пока его не остановят
+    environment: # Переменные окружения для запуска контейнера
+      POSTGRES_DB: dbsurvey  # Название создаваемой базы данных при старте
+      POSTGRES_PASSWORD: dbpassword # Пароль пользователя
+      POSTGRES_USER: dbuser # Имя пользователя
+    ports:
+      - 5432:5432 # Сопоставление внутренних портов контейнера с портами хоста
+    volumes:
+      - postgres-survey-data:/var/lib/postgresql/data # Папка, где буду храниться данные Postgres
+    networks: 
+      - survey-networks # Название внутренней сети, в рамках которой будут находиться сервисы
+  # Приложение опросника
+  surveyapp:
+    image: my-surveydown-app-image
+    container_name: surveyapp
+    hostname: surveyapp
+    restart: unless-stopped
+    environment: # Переменные окружения для запуска контейнера
+      POSTGRES_HOST: postgres # Адрес для доступа к базе данных внутри сети
+      POSTGRES_PORT: 5432 # Внутренний порт контейнера
+      POSTGRES_DB: dbsurvey  # Название создаваемой базы данных при старте
+      POSTGRES_USER: dbuser # Имя пользователя
+      POSTGRES_TABLE: surveytable # Название таблицы для хранения результатов опроса
+      SURVEYDOWN_PASSWORD: dbpassword # Пароль для доступа к базе данных и админской странице
+    ports:
+      - 3838:3838
+    depends_on:
+      - postgres # Указание, что для приложения требуется запущенная база данных
+    networks:
+      - survey-networks
+# Сети, доступные в кластере
+networks:
+  survey-networks:
+    driver: bridge
+# Подключаемые хранилища данных
+volumes: 
+  postgres-survey-data:

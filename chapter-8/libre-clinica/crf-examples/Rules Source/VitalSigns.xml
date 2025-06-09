@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_VITALSIGNS.IG_VITAL_VITALS.I_VITAL_VS_BPHR</Target>
+		<RuleRef OID="I_VITAL_VS_BPHR_SHOWHIDEINSERT">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please fill in Systolic BP, Diastolic BP, and Heart Rate for both positions in the log below.</Message>
+				<DestinationProperty OID ="IG_VITAL_BPLOG"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>The log should only be completed if 'Yes' was selected for the previous question.</Message>
+				<DestinationProperty OID ="IG_VITAL_BPLOG"/>
+            </HideAction>
+            <InsertAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false"/>
+				<DestinationProperty OID="IG_VITAL_BPLOG[1].I_VITAL_VS_TYPE" Value="Supine"></DestinationProperty>
+				<DestinationProperty OID="IG_VITAL_BPLOG[2].I_VITAL_VS_TYPE" Value="Standing"></DestinationProperty>
+            </InsertAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_VITALSIGNS.IG_VITAL_VITALS.I_VITAL_VS_TEMP</Target>
+		<RuleRef OID="I_VITAL_VS_TEMP_C">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Temperature should be between 36.4 and 37.6 if in degrees Celcius. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_VITAL_VS_TEMP_F">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Temperature should be between 97.6 and 99.6 if in degrees Fahrenheit. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+		<Target Context="OC_RULES_V1">F_VITALSIGNS.IG_VITAL_VITALS.I_VITAL_VS_HGHT</Target>
+		<RuleRef OID="I_VITAL_VS_HGHT_CM">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Height is out of the expected range (121 - 213 cm). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_VITAL_VS_HGHT_IN">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Height is out of the expected range (48 - 84 inches). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+		<Target Context="OC_RULES_V1">F_VITALSIGNS.IG_VITAL_VITALS.I_VITAL_VS_WGHT</Target>
+		<RuleRef OID="I_VITAL_VS_WGHT_LB">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Weight is out of the expected range (70 - 600 lbs). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_VITAL_VS_WGHT_KG">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Weight is out of the expected range (31 - 272 kg). Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_VITAL_VS_BPHR_SHOWHIDEINSERT" Name="Vitals: Show/Hide/Insert">
+		<Description>If 'Yes' is selected, the log should show and 'Supine' and 'Standing' should insert into the Position column.</Description>
+		<Expression>I_VITAL_VS_BPHR eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_VITAL_VS_TEMP_C" Name="Vitals: Temp C">
+		<Description>Temperature in Degrees Celcius should be between 35.4 and 36.6 degrees.</Description>
+		<Expression>(I_VITAL_VS_TEMP lt 36.4 or I_VITAL_VS_TEMP gt 37.6) and I_VITAL_VS_TUNIT eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_VITAL_VS_TEMP_F" Name="Vitals: Temp F">
+		<Description>Temperature in Degrees Fahrenheit should be between 97.6 and 99.6 degrees.</Description>
+		<Expression>(I_VITAL_VS_TEMP lt 97.6 or I_VITAL_VS_TEMP gt 99.6) and I_VITAL_VS_TUNIT eq 2</Expression>
+	</RuleDef>
+	<RuleDef OID="I_VITAL_VS_HGHT_CM" Name="Vitals: Height CM">
+		<Description>Height in cm should be between 121-213 cm.</Description>
+		<Expression>(I_VITAL_VS_HGHT lt 121 or I_VITAL_VS_HGHT gt 213) and I_VITAL_VS_UNITS eq 2</Expression>
+	</RuleDef>
+	<RuleDef OID="I_VITAL_VS_HGHT_IN" Name="Vitals: Height IN">
+		<Description>Height in inches should be between 48-84 in.</Description>
+		<Expression>(I_VITAL_VS_HGHT lt 48 or I_VITAL_VS_HGHT gt 84) and I_VITAL_VS_UNITS eq 1</Expression>
+	</RuleDef>	
+	<RuleDef OID="I_VITAL_VS_WGHT_LB" Name="Vitals: Weight LBS">
+		<Description>Height in cm should be between 121-213 cm.</Description>
+		<Expression>(I_VITAL_VS_WGHT lt 70 or I_VITAL_VS_WGHT gt 600) and I_VITAL_VS_UNITS eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_VITAL_VS_WGHT_KG" Name="Vitals: Weight KG">
+		<Description>Height in inches should be between 48-84 in.</Description>
+		<Expression>(I_VITAL_VS_WGHT lt 31 or I_VITAL_VS_WGHT gt 272) and I_VITAL_VS_UNITS eq 2</Expression>
+	</RuleDef>	
+</RuleImport>

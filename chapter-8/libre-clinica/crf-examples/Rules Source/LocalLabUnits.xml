@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">SE_FIRSTVISIT.F_LOCALLABORAT.IG_LOCAL_TESTS.I_LOCAL_SITE_AB</Target>
+		<RuleRef OID="I_LOCAL_UNITS1">
+            <InsertAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false"/>
+				<DestinationProperty OID="I_LOCAL_HEM_UNITS" Value="gm/dL"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_RBC_UNITS" Value="trillion cells/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_WBC_UNITS" Value="billion cells/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_RHE_UNITS" Value="IU/mL"></DestinationProperty>				
+				<DestinationProperty OID="I_LOCAL_POT_UNITS" Value="mEq/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_CAL_UNITS" Value="mg/dL"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_ALB_UNITS" Value="g/dL"></DestinationProperty>
+            </InsertAction>
+		</RuleRef>
+		<RuleRef OID="I_LOCAL_UNITS2">
+            <InsertAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false"/>
+				<DestinationProperty OID="I_LOCAL_HEM_UNITS" Value="gm/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_RBC_UNITS" Value="million cells/mcL"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_WBC_UNITS" Value="cells/mcL"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_RHE_UNITS" Value="IU/mL"></DestinationProperty>				
+				<DestinationProperty OID="I_LOCAL_POT_UNITS" Value="mmol/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_CAL_UNITS" Value="mmol/L"></DestinationProperty>
+				<DestinationProperty OID="I_LOCAL_ALB_UNITS" Value="umol/L"></DestinationProperty>
+            </InsertAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_LOCAL_UNITS1" Name="Local Lab: Site A,C,E Units">
+		<Description>Insert Units if Site A, C, E</Description>
+		<Expression>I_LOCAL_SITE_AB eq 101 or I_LOCAL_SITE_AB eq 103 or I_LOCAL_SITE_AB eq 105</Expression>
+	</RuleDef>
+	<RuleDef OID="I_LOCAL_UNITS2" Name="Local Lab: Site B,D Units">
+		<Description>Insert Units if Site B, D</Description>
+		<Expression>I_LOCAL_SITE_AB eq 102 or I_LOCAL_SITE_AB eq 104</Expression>
+	</RuleDef>
+</RuleImport>

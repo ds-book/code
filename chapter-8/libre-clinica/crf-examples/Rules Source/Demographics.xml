@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_DEMOGRAPHICS.IG_DEMOG_DEMO.I_DEMOG_DEM_DTBR</Target>
+		<RuleRef OID="I_DEMOG_DEM_DTBR_VERIFY">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>Date of Birth should not occur after the Date of Consent or after to the year 1970. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_DEMOGRAPHICS.IG_DEMOG_DEMO.I_DEMOG_DEM_RACE</Target>
+		<RuleRef OID="I_DEMOG_DEM_RACE_VERIFY">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>If 'Prefer not to answer' or 'Unknown' is selected, then no other options should be selected. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_DEMOGRAPHICS.IG_DEMOG_DEMO.I_DEMOG_DEM_DTIC</Target>
+		<RuleRef OID="I_DEMOG_DEM_DTIC_VERIFY">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>The Date of Informed Consent is different than the Date of Informed Consent recorded in the Inclusion/Exclusion and/or the Verification of Informed Consent form. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_DEMOG_DEM_DTBR_VERIFY" Name="Demographics: DOB Verification">
+		<Description>Date of Birth cannot occur after the Date of Consent and must be prior to 1970</Description>
+		<Expression>(I_DEMOG_DEM_DTBR gte I_DEMOG_DEM_DTIC) or (I_DEMOG_DEM_DTBR gt 1970-12-31)</Expression>
+	</RuleDef>
+	<RuleDef OID="I_DEMOG_DEM_RACE_VERIFY" Name="Demographics: Race Unknown">
+		<Description>No other selections should be made if 'Unknown' is selected for race.</Description>
+		<Expression>(I_DEMOG_DEM_RACE ct "9" or I_DEMOG_DEM_RACE ct "8") and (I_DEMOG_DEM_RACE ct "1" or I_DEMOG_DEM_RACE ct "2" or I_DEMOG_DEM_RACE ct "3" or I_DEMOG_DEM_RACE ct "4" or I_DEMOG_DEM_RACE ct "5" or I_DEMOG_DEM_RACE ct "6" or I_DEMOG_DEM_RACE ct "7" or I_DEMOG_DEM_RACE ct "10")</Expression>
+	</RuleDef>
+	<RuleDef OID="I_DEMOG_DEM_DTIC_VERIFY" Name="Demographics: Date of IC vs Inc/Ex and Verification of IC forms">
+		<Description>Date of Informed Consent should be the same as the Date of Informed Consent recorded in the Inclusion/Exclusion form.</Description>
+		<Expression>(I_DEMOG_DEM_DTIC ne F_INCLUSIONEXC.IG_INCLU_ELIGIBILITY.I_INCLU_IN_DT_IC) or (I_DEMOG_DEM_DTIC ne F_VERIFICATION.IG_VERIF_UNGROUPED.I_VERIF_VERI_DATE)</Expression>
+	</RuleDef>
+</RuleImport>

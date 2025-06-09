@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_CONCOMITANTM_6812.IG_CONCO_CONMEDS.I_CONCO_CM_YN</Target>
+		<RuleRef OID="I_CONCO_CM_YN_SHOWHIDE">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please complete the Concomitant Medications log.</Message>
+				<DestinationProperty OID ="IG_CONCO_CONMEDLOG"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>The Concomitant Medications log should only be completed if 'Yes' was selected.</Message>
+				<DestinationProperty OID ="IG_CONCO_CONMEDLOG"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_CONCOMITANTM_6812.IG_CONCO_CONMEDLOG.I_CONCO_CM_ONGNG</Target>
+		<RuleRef OID="I_CONCO_CM_ONGNG_DATEEMPTY">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>'Yes' was selected for Ongoing but Stop Date was also provided. Please verify your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+		<RuleRef OID="I_CONCO_CM_ONGNG_DATEPROV">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>'No' was selected for Ongoing. Please provide Stop Date or update your response.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_CONCO_CM_YN_SHOWHIDE" Name="ConMeds: Show/Hide Log">
+		<Description>If 'Yes' is selected for the first question, show the Concomitant medications log in the next section. Otherwise, hide it.</Description>
+		<Expression>I_CONCO_CM_YN eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_CONCO_CM_ONGNG_DATEEMPTY" Name="ConMeds: Date should be empty">
+		<Description>Stop Date should be blank if medication is Ongoing i.e. 1 is selected</Description>
+		<Expression>I_CONCO_CM_ONGNG eq 1 and I_CONCO_CM_SPDT ne ""</Expression>
+	</RuleDef>
+	<RuleDef OID="I_CONCO_CM_ONGNG_DATEPROV" Name="ConMeds: Date should be entered">
+		<Description>Stop Date should be entered if medication is not Ongoing i.e. 2 is selected.</Description>
+		<Expression>I_CONCO_CM_ONGNG eq 2 and I_CONCO_CM_SPDT eq ""</Expression>
+	</RuleDef>
+</RuleImport>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleImport>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE1.I_SERIO_SAE2_YN</Target>
+		<RuleRef OID="I_SERIO_SAE2_YN">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please complete the following fields for the additional SAE.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE2"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>These items should only be completed if an additional SAE occurred.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE2"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE2.I_SERIO_SAE3_YN</Target>
+		<RuleRef OID="I_SERIO_SAE3_YN">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please complete the following fields for the additional SAE.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE3"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>These items should only be completed if an additional SAE occurred.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE3"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE3.I_SERIO_SAE4_YN</Target>
+		<RuleRef OID="I_SERIO_SAE4_YN">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please complete the following fields for the additional SAE.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE4"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>These items should only be completed if an additional SAE occurred.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE4"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE4.I_SERIO_SAE5_YN</Target>
+		<RuleRef OID="I_SERIO_SAE5_YN">
+            <ShowAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>Please complete the following fields for the additional SAE.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE5"/>
+            </ShowAction>			
+			<HideAction IfExpressionEvaluates="false">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="false" />
+                <Message>These items should only be completed if an additional SAE occurred.</Message>
+				<DestinationProperty OID ="IG_SERIO_SAE5"/>
+            </HideAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE1.I_SERIO_SAE1_DTED</Target>
+		<RuleRef OID="I_SERIO_SAE1_DTED">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>End Date cannot occur prior to Start Date. Please update your response or a discrepancy note will be logged.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE2.I_SERIO_SAE2_DTED</Target>
+		<RuleRef OID="I_SERIO_SAE2_DTED">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>End Date cannot occur prior to Start Date. Please update your response or a discrepancy note will be logged.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE3.I_SERIO_SAE3_DTED</Target>
+		<RuleRef OID="I_SERIO_SAE3_DTED">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>End Date cannot occur prior to Start Date. Please update your response or a discrepancy note will be logged.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE4.I_SERIO_SAE4_DTED</Target>
+		<RuleRef OID="I_SERIO_SAE4_DTED">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>End Date cannot occur prior to Start Date. Please update your response or a discrepancy note will be logged.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+	<Target Context="OC_RULES_V1">F_SERIOUSADVER.IG_SERIO_SAE5.I_SERIO_SAE5_DTED</Target>
+		<RuleRef OID="I_SERIO_SAE5_DTED">
+			<DiscrepancyNoteAction IfExpressionEvaluates="true">
+                <Run AdministrativeDataEntry="true" InitialDataEntry="true" DoubleDataEntry="true" ImportDataEntry="false" Batch="true" />
+				<Message>End Date cannot occur prior to Start Date. Please update your response or a discrepancy note will be logged.</Message>
+			</DiscrepancyNoteAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="I_SERIO_SAE2_YN" Name="SAE: Add SAE 2">
+		<Description>If 'Yes', add SAE</Description>
+		<Expression>I_SERIO_SAE2_YN eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE3_YN" Name="SAE: Add SAE 3">
+		<Description>If 'Yes', add SAE</Description>
+		<Expression>I_SERIO_SAE3_YN eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE4_YN" Name="SAE: Add SAE 4">
+		<Description>If 'Yes', add SAE</Description>
+		<Expression>I_SERIO_SAE4_YN eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE5_YN" Name="SAE: Add SAE 5">
+		<Description>If 'Yes', add SAE</Description>
+		<Expression>I_SERIO_SAE5_YN eq 1</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE1_DTED" Name="SAE: SAE 1 Dates">
+		<Description>End Date should not occur prior to Start Date</Description>
+		<Expression>I_SERIO_SAE1_DTED lt I_SERIO_SAE1_DTST</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE2_DTED" Name="SAE: SAE 2 Dates">
+		<Description>End Date should not occur prior to Start Date</Description>
+		<Expression>I_SERIO_SAE2_DTED lt I_SERIO_SAE2_DTST</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE3_DTED" Name="SAE: SAE 3 Dates">
+		<Description>End Date should not occur prior to Start Date</Description>
+		<Expression>I_SERIO_SAE3_DTED lt I_SERIO_SAE3_DTST</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE4_DTED" Name="SAE: SAE 4 Dates">
+		<Description>End Date should not occur prior to Start Date</Description>
+		<Expression>I_SERIO_SAE4_DTED lt I_SERIO_SAE4_DTST</Expression>
+	</RuleDef>
+	<RuleDef OID="I_SERIO_SAE5_DTED" Name="SAE: SAE 5 Dates">
+		<Description>End Date should not occur prior to Start Date</Description>
+		<Expression>I_SERIO_SAE5_DTED lt I_SERIO_SAE5_DTST</Expression>
+	</RuleDef>
+</RuleImport>

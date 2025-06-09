@@ -1,0 +1,603 @@
+---
+title: "Новый красивый дашборд"
+author: "Data Science Course"
+format:
+  dashboard:
+    theme:
+    - default
+    logo: logo.png
+    nav-buttons:
+    - icon: github
+      href: https://github.com/data-science-course/quarto-dashboard
+# Добавляем интерактивности - говорим что будем использовать Shiny server
+server: shiny
+---
+
+```{r}
+#| label: Загрузка пакетов
+#| include: false
+#| context: setup
+library(tidyverse)
+library(leaflet)
+library(kableExtra)
+library(gt)
+library(flextable)
+library(reactable)
+library(plotly)
+library(scales)
+library(ggplot2)
+library(ggrepel)
+library(lubridate)
+library(shinydashboard)
+library(shiny)
+```
+
+```{r}
+#| label: Загрузка данных
+#| include: false
+#| context: setup
+patients <- read.csv2("patients.csv", dec = ".")
+patients$DATEBIRTH <- ymd(patients$DATEBIRTH)
+patients$DATESTRAIN <- ymd(patients$DATESTRAIN)
+patients$DATEFILL <- ymd(patients$DATEFILL)
+```
+
+<!-- В сайдбаре будем размещать все контролы -->
+# {.sidebar}
+
+Данное исследование рассматривает  `{r} nrow(patients)` пациентов из `{r} length(unique(patients$CITYNAME))` городов России и Беларуси.
+
+
+```{r}
+#| label: Контролы фильтров
+
+# Выбор группы пациентов
+selectInput('selPatgroup', 'Группа пациентов',
+            choices = c(Все = '.', sort(unique(patients$PAT_GROUP)))
+            )
+# Выбор города
+selectInput('selCity', 'Город',
+            choices = c(Все = '.', sort(unique(patients$CITYNAME))),
+            selected = c("."),
+            multiple = TRUE)
+# Выбор временного диапазона
+minDate <- min(patients$DATESTRAIN, na.rm = TRUE)
+maxDate <- max(patients$DATESTRAIN, na.rm = TRUE)
+dateRangeInput(
+  'selDateRange',
+  'Дата взятия образца',
+  start = minDate,
+  end = maxDate,
+  min = minDate,
+  max = maxDate,
+  format = "yyyy-mm-dd",
+  startview = "month",
+  weekstart = 1,
+  language = "ru",
+  separator = " - ",
+  width = NULL,
+  autoclose = TRUE
+)
+# Выбор возраста
+minAge <- min(patients$AGE)
+maxAge <- max(patients$AGE)
+sliderInput(
+  'selAge',
+  'Возраст',
+  min = minAge,
+  max = maxAge,
+  value = c(minAge, maxAge),
+  step = 1,
+  dragRange = TRUE
+)
+# вывод количества отфильтрованных строк
+textOutput('count_text')
+```
+
+```{r}
+#| label: отбор данных по фильтрам
+#| context: server
+data <- reactive({
+  d <- patients
+  if (input$selPatgroup != "." ) {
+    d <- d %>% filter(PAT_GROUP == input$selPatgroup)
+  }
+  if ( !("." %in% input$selCity ) ) {
+    d <- d %>% filter(CITYNAME %in% input$selCity)
+  }
+  if (length(input$selDateRange) == 2) {
+  d <- d %>% filter(DATESTRAIN >= input$selDateRange[1] & DATESTRAIN <= input$selDateRange[2])
+  }
+  if (length(input$selAge) == 2) {
+  d <- d %>% filter(AGE >= input$selAge[1] & AGE <= input$selAge[2])
+  }
+
+  d
+})
+```
+
+```{r}
+#| label: создание выходного результата
+#| context: server
+output$count_text <- renderText({
+ paste("Выбрано",nrow(data()), "образцов", sep = " ")
+})
+
+output$data_count <- renderText(nrow(data()))
+output$center_count <- renderText(length(unique(data()$CENTER)))
+```
+
+
+|               |                                       |
+|-------------- |---------------------------------------|
+| **Центров **  | `{r} textOutput('center_count')`      |
+| **Пациентов** | `{r} textOutput('data_count')`        |
+| **Дата**      | `{r} Sys.Date()`                      |
+
+
+```{r}
+#| label: Количество пациентов по полу
+#| include: false
+#| context: server
+
+# Количество мужчин
+mens_count <- reactive({
+  data() %>% filter(grepl("Мужчины",PAT_GROUP)) %>% nrow()
+})
+# Компонент отображения числа
+output$graph_mens_count <- renderValueBox({
+    valueBox(mens_count(),"Мужчины", color = "blue")
+  })
+# Количество женщин
+womens_count <- reactive({
+  data() %>% filter(grepl("Женщины",PAT_GROUP)) %>% nrow()
+})
+# Компонент отображения числа
+output$graph_womens_count <- renderValueBox({
+    valueBox(womens_count(),"Женщины", color = "purple")
+  })
+# Количество детей
+children_count <- reactive({
+  data() %>% filter(grepl("Дети",PAT_GROUP)) %>% nrow()
+})
+# Компонент отображения числа
+output$graph_children_count <- renderValueBox({
+    valueBox(children_count(),"Дети", color = "orange")
+  })
+```
+
+
+
+# Дашборд
+
+<!-- Главная строка на странице дашборда -->
+## Row
+
+<!-- Первый столбец -->
+### Column
+
+<!-- Строка с количествами пациентов -->
+#### Row {height="15%"}
+
+
+```{r}
+#| label: Рисуем карточку количества мужчин
+valueBoxOutput("graph_mens_count")
+```
+
+```{r}
+#| label: Рисуем карточку количества женщин
+valueBoxOutput("graph_womens_count")
+```
+
+```{r}
+#| label: Рисуем карточку количества детей
+valueBoxOutput("graph_children_count")
+```
+
+<!-- Вторая строка первого столбца с графиками структуры организмов -->
+#### Row {height="25%"}
+
+```{r}
+#| label: Подсчет количества организмов у мужчин
+#| context: server
+
+output$plot_org_male <- renderPlot({
+  # Получаем данные
+  org_male <- data() %>%
+  filter(grepl("Мужчины",PAT_GROUP)) %>%
+  group_by(STRAIN) %>%
+  summarise(Count = n()) %>%
+  ungroup() %>%
+  mutate(Percent = round(100 * Count / sum(Count))) %>%
+  arrange(desc(Percent)) %>%
+   mutate(csum = rev(cumsum(rev(Count))),
+         pos = Count/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), Count/2, pos))
+  # Проверяем результат
+  validate(
+      need(nrow(org_male) > 0, "Данные отсутствуют")
+  )
+  # Рисуем график
+  ggplot(org_male, aes(x = "" , y = Count, fill = fct_inorder(STRAIN))) +
+  geom_col(width = 1, color = 1) +
+  coord_polar(theta = "y") +
+  scale_fill_brewer(palette = "Pastel1") +
+  geom_label_repel(data = org_male,
+                   aes(y = pos, label = paste0(Count, " (", Percent, "%)")),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE) +
+  guides(fill = guide_legend(title = "Организм")) +
+  theme_void()
+})
+```
+
+
+
+```{r}
+#| label: Вывод количества организмов у мужчин
+#| fig-cap: "Структура организмов у мужчин"
+
+plotOutput('plot_org_male')
+```
+
+
+```{r}
+#| label: Подсчет количества организмов у женщин
+#| context: server
+
+output$plot_org_female <- renderPlot({
+  # Получаем данные
+  org_female <- data() %>%
+  filter(grepl("Женщины",PAT_GROUP)) %>%
+  group_by(STRAIN) %>%
+  summarise(Count = n()) %>%
+  ungroup() %>%
+  mutate(Percent = round(100 * Count / sum(Count))) %>%
+  arrange(desc(Percent)) %>%
+   mutate(csum = rev(cumsum(rev(Count))),
+         pos = Count/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), Count/2, pos))
+  # Проверяем результат
+  validate(
+      need(nrow(org_female) > 0, "Данные отсутствуют")
+  )
+  # Рисуем график
+  ggplot(org_female, aes(x = "" , y = Count, fill = fct_inorder(STRAIN))) +
+  geom_col(width = 1, color = 1) +
+  coord_polar(theta = "y") +
+  scale_fill_brewer(palette = "Pastel1") +
+  geom_label_repel(data = org_female,
+                   aes(y = pos, label = paste0(Count, " (", Percent, "%)")),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE) +
+  guides(fill = guide_legend(title = "Организм")) +
+  theme_void()
+})
+```
+
+
+```{r}
+#| label: Вывод количества организмов у женщин
+#| fig-cap: "Структура организмов у женщин"
+plotOutput('plot_org_female')
+```
+
+```{r}
+#| label: Подсчет количества организмов у детей
+#| context: server
+
+output$plot_org_children <- renderPlot({
+  # Получаем данные
+  org_children <- data() %>%
+  filter(grepl("Дети",PAT_GROUP)) %>%
+  group_by(STRAIN) %>%
+  summarise(Count = n()) %>%
+  ungroup() %>%
+  mutate(Percent = round(100 * Count / sum(Count))) %>%
+  arrange(desc(Percent)) %>%
+   mutate(csum = rev(cumsum(rev(Count))),
+         pos = Count/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), Count/2, pos))
+  # Проверяем результат
+  validate(
+      need(nrow(org_children) > 0, "Данные отсутствуют")
+  )
+  # Рисуем график
+  ggplot(org_children, aes(x = "" , y = Count, fill = fct_inorder(STRAIN))) +
+  geom_col(width = 1, color = 1) +
+  coord_polar(theta = "y") +
+  scale_fill_brewer(palette = "Pastel1") +
+  geom_label_repel(data = org_children,
+                   aes(y = pos, label = paste0(Count, " (", Percent, "%)")),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE) +
+  guides(fill = guide_legend(title = "Организм")) +
+  theme_void()
+})
+```
+
+```{r}
+#| label: Вывод количества организмов у детей
+#| fig-cap: "Структура организмов у детей"
+plotOutput('plot_org_children')
+```
+
+<!-- Третья строка первого столбца - Структура диагнозов -->
+#### Row {.fill}
+
+```{r}
+#| label: Расчет диагнозов по группам
+#| context: server
+
+diag <- reactive({
+  data() %>% group_by(PAT_GROUP, mkb_name) %>%
+  summarise(Count = n()) %>%
+  ungroup() %>%
+  pivot_wider(names_from = "PAT_GROUP", values_from = "Count", values_fill = 0) %>%
+  mutate(mkb_name = case_when(
+    mkb_name == "Интерстициальный цистит (хронический)" ~ "Хронический цистит",
+    mkb_name == "Необструктивный хронический пиелонефрит, связанный с рефлюксом" ~ "Хронический пиелонефрит",
+    mkb_name == "Острый тубулоинтерстициальный нефрит" ~ "Острый нефрит",
+    mkb_name == "Инфекция мочевыводящих путей без установленной локализации" ~ "Инфекция МВП",
+    TRUE ~ mkb_name
+  ))
+})
+
+output$plot_diag <- renderPlotly({
+  validate(
+      need(nrow(diag()) > 0, "Данные отсутствуют")
+  )
+  # Определение заранее возможные категории
+  categories <- c(
+    'Дети, неосложненные', 'Дети, осложненные',
+    'Женщины, неосложненные', 'Женщины, осложненные',
+    'Мужчины, неосложненные', 'Мужчины, осложненные'
+  )
+
+  # Добавление недостающих столбцов для упрощенного построения графика
+  diag_plot <- diag()
+  for (i in seq_along(categories)) {
+    category <- categories[i]
+    if (!(category %in% colnames(diag_plot))) {
+      diag_plot[[category]] <- 0
+    }
+  }
+  # Построение графика
+  plot <- plot_ly(data = diag_plot, x = ~mkb_name, type = 'bar',
+                  y = ~`Дети, неосложненные`, name = 'Дети, неосложненные',
+                  marker = list(color = 'rgba(247,167,102, 0.8)')) %>%
+  add_trace(y = ~`Дети, осложненные`, name = 'Дети, осложненные',
+            marker = list(color = 'rgba(243,109,0, 0.8)')) %>%
+  add_trace(y = ~`Женщины, неосложненные`, name = 'Женщины, неосложненные',
+            marker = list(color = 'rgba(134,96,142, 0.8)')) %>%
+  add_trace(y = ~`Женщины, осложненные`, name = 'Женщины, осложненные',
+            marker = list(color = 'rgba(108,48,130, 0.8)')) %>%
+  add_trace(y = ~`Мужчины, неосложненные`, name = 'Мужчины, неосложненные',
+            marker = list(color = 'rgba(39,188,209, 0.8)')) %>%
+  add_trace(y = ~`Мужчины, осложненные`, name = 'Мужчины, осложненные',
+            marker = list(color = 'rgba(36,107,206, 0.8)')) %>%
+  layout(yaxis = list(title = 'Кол-во'), barmode = 'stack') %>%
+  layout(xaxis = list(title = '' )) %>%
+  layout(legend = list(orientation = 'h'))
+
+  plot
+})
+
+```
+
+
+```{r}
+#| label: Вывод диагнозов по группам
+#| title: Структура диагнозов по группам пациентов
+
+plotlyOutput("plot_diag")
+```
+
+
+
+
+<!-- Второй столбец -->
+### Column
+
+<!-- Первая строка второго столбца - Карта -->
+#### Row {height="33%"}
+
+```{r}
+#| label: Расчет Количество пациентов по городам
+#| include: false
+#| context: server
+
+# Все
+all <- reactive({
+  data() %>% select(CITYNAME, LATITUDE, LONGITUDE) %>%
+  group_by(CITYNAME, LATITUDE, LONGITUDE) %>%
+  summarise(Count = n()) %>%
+  ungroup()
+})
+
+# Мужчины
+men <- reactive({
+  data() %>%
+  filter(grepl("Мужчины",PAT_GROUP)) %>%
+  select(CITYNAME, LATITUDE, LONGITUDE) %>%
+  group_by(CITYNAME, LATITUDE, LONGITUDE) %>%
+  summarise(CountMen = n()) %>%
+  ungroup()
+})
+
+# Женщины
+women <- reactive({
+  data() %>%
+  filter(grepl("Женщины",PAT_GROUP)) %>%
+  select(CITYNAME, LATITUDE, LONGITUDE) %>%
+  group_by(CITYNAME, LATITUDE, LONGITUDE) %>%
+  summarise(CountWoman = n()) %>%
+  ungroup()
+})
+
+# Дети
+children <- reactive({
+  data() %>%
+  filter(grepl("Дети",PAT_GROUP)) %>%
+  select(CITYNAME, LATITUDE, LONGITUDE) %>%
+  group_by(CITYNAME, LATITUDE, LONGITUDE) %>%
+  summarise(CountChild = n()) %>%
+  ungroup()
+})
+# Данные для отображения на карте
+mapdata <- reactive({
+  all() %>% left_join(men()) %>% left_join(women()) %>% left_join(children()) %>%
+    mutate_all(~replace(., is.na(.), 0))
+  })
+
+# Отрисовка карты
+output$map <- renderLeaflet({
+  mapdata() %>%
+  leaflet() %>%
+  addCircleMarkers(
+    lng = ~ LONGITUDE,
+    lat = ~ LATITUDE,
+    stroke = FALSE,
+    fillOpacity = 0.5,
+    radius = ~ scales::rescale(sqrt(Count), c(1, 10)),
+    label = ~ paste(
+      "<strong>" , CITYNAME, ": ", Count,        "</strong>",
+      "<br/>",
+      "Мужчин:", CountMen, "<br/>",
+      "Женщин:",  CountWoman, "<br/>",
+      "Дети:",  CountChild
+      ) %>% map(html),
+    labelOptions = c(textsize = "15px")) %>%
+  addTiles("http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}")
+})
+```
+
+```{r}
+#| label: Вывод Количество пациентов по городам
+#| title: Количество пациентов по городам
+
+leafletOutput("map")
+```
+
+<!-- Вторая строка второго столбца - Таблица -->
+#### Row {.tabset}
+
+```{r}
+#| label: Расчет количества пациентов по городам
+#| include: false
+#| context: server
+citypat <- reactive({
+  citypat <- data() %>%
+    group_by(CITYNAME, PAT_GROUP) %>% summarise(Count = n()) %>%
+    ungroup() %>%
+    pivot_wider(names_from = "PAT_GROUP", values_from = "Count", values_fill = 0) %>%
+    select(order(colnames(.)))
+
+  colnames(citypat)[1] <- "Город"
+  citypat
+})
+
+# Таблица gt
+output$citypat_gt <- render_gt({
+  citypat() %>%
+  gt() %>%
+  tab_header(title = "Распределение пациентов по городам") %>%
+  opt_row_striping()
+})
+
+# Таблица flextable
+output$citypat_ft <- renderUI({
+  citypat() %>%
+  flextable() %>%
+  set_caption("Распределение пациентов по городам") %>%
+  theme_zebra() %>%
+  htmltools_value()
+})
+
+# Таблица kable
+output$citypat_kb <- function(){
+  citypat() %>%
+  kbl(caption = "Распределение пациентов по городам") %>%
+  kable_styling(bootstrap_options = c("striped"))
+}
+```
+
+```{r}
+#| label: kable
+#| title: kable
+
+tableOutput("citypat_kb")
+```
+
+```{r}
+#| label: gt
+#| title: gt
+
+gt_output("citypat_gt")
+```
+
+```{r}
+#| label: flextable
+#| title: flextable
+
+tableOutput("citypat_ft")
+```
+
+
+# Набор данных
+
+<!-- https://glin.github.io/reactable -->
+
+```{r}
+#| label: reacttable-options
+#| include: false
+#| context: server
+
+options(reactable.language = reactableLang(
+  pageSizeOptions   = "показано {rows} значений",
+  pageInfo          = "с {rowStart} по {rowEnd} из {rows} строк",
+  pagePrevious      = "назад",
+  pageNext          = "вперед",
+  searchPlaceholder = "Поиск...",
+  noData            = "Значения не найдены"
+))
+```
+
+```{r}
+#| label: Создание reacttable
+#| title: Список пациентов, включенных в исследование
+#| context: server
+
+output$data_rt <- renderReactable({
+  data() %>%
+  select(-c("LATITUDE", "LONGITUDE")) %>%
+  select(study_subject_id, PAT_GROUP, SEX, AGE, DATEBIRTH,
+         STRAIN, DATESTRAIN,
+         CENTER, COUNTRY, CITYNAME, DATEFILL,
+         DIAG_ICD, mkb_name, COMPL) %>%
+  reactable(filterable = TRUE, searchable = TRUE, striped = TRUE,
+            columns = list(
+              study_subject_id = colDef(name = "ID", width = 64, defaultSortOrder = "asc"),
+              PAT_GROUP = colDef(name = "Группа", width = 150),
+              SEX = colDef(name = "Пол", width = 100),
+              AGE = colDef(name = "Возраст", width = 90),
+              DATEBIRTH = colDef(name = "Дата рожд.", width = 120),
+              STRAIN = colDef(name = "Организм", width = 150),
+              DATESTRAIN = colDef(name = "Дата получ.", width = 120),
+              CENTER = colDef(name = "Центр", width = 70),
+              COUNTRY = colDef(name = "Страна", width = 100),
+              CITYNAME = colDef(name = "Город", width = 150),
+              DATEFILL = colDef(name = "Дата заполн.", width = 120),
+              DIAG_ICD = colDef(name = "МКБ-10", width = 80),
+              mkb_name = colDef(name = "Диагноз"),
+              COMPL = colDef(name = "Осложнения")
+            ))
+})
+
+```
+
+```{r}
+#| label: Вывод reacttable
+#| title: Список пациентов, включенных в исследование
+
+reactableOutput("data_rt")
+```
+

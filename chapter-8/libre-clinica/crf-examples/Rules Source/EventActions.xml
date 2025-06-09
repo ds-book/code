@@ -1,0 +1,59 @@
+<RuleImport>
+	<RuleAssignment>
+		<Target Context="OC_RULES_V1">SE_FIRSTVISIT.STARTDATE</Target>
+		<RuleRef OID="SE_1WEEKFU_STARTDATE">
+			<EventAction IfExpressionEvaluates="true" OID="SE_1WEEKFU">
+				<RunOnStatus not_scheduled="true" scheduled="true" data_entry_started="false" completed="false"  skipped="false" stopped="false"/>
+				<EventDestination Property="STARTDATE">
+					<ValueExpression Context="OC_RULES_V1">SE_FIRSTVISIT.STARTDATE + 7</ValueExpression>
+				</EventDestination>
+			</EventAction>
+		</RuleRef>
+		<RuleRef OID="SE_2WEEKFU_STARTDATE">
+			<EventAction IfExpressionEvaluates="true" OID="SE_2WEEKFU">
+				<RunOnStatus not_scheduled="true" scheduled="true" data_entry_started="false" completed="false"  skipped="false" stopped="false"/>
+				<EventDestination Property="STARTDATE">
+					<ValueExpression Context="OC_RULES_V1">SE_1WEEKFU.STARTDATE + 7</ValueExpression>
+				</EventDestination>
+			</EventAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+		<Target Context="OC_RULES_V1">SE_2WEEKFU.STATUS</Target>
+		<RuleRef OID="SE_MONTHLYFU_STARTDATE_R1">
+			<EventAction IfExpressionEvaluates="true" OID="SE_MONTHLYFU[1]">
+				<RunOnStatus not_scheduled="true" scheduled="true" data_entry_started="false" completed="false"  skipped="false" stopped="false"/>
+				<EventDestination Property="STARTDATE">
+					<ValueExpression Context="OC_RULES_V1">SE_2WEEKFU.STARTDATE + 14</ValueExpression>
+				</EventDestination>
+			</EventAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleAssignment>
+		<Target Context="OC_RULES_V1">SE_MONTHLYFU[1].STATUS</Target>
+		<RuleRef OID="SE_MONTHLYFU_STARTDATE_R2">
+			<EventAction IfExpressionEvaluates="true" OID="SE_MONTHLYFU[2]">
+				<RunOnStatus not_scheduled="true" scheduled="true" data_entry_started="false" completed="false"  skipped="false" stopped="false"/>
+				<EventDestination Property="STARTDATE">
+					<ValueExpression Context="OC_RULES_V1">SE_MONTHLYFU[1].STARTDATE + 28</ValueExpression>
+				</EventDestination>
+			</EventAction>
+		</RuleRef>
+	</RuleAssignment>
+	<RuleDef OID="SE_1WEEKFU_STARTDATE" Name="NIC5: Schedule 1 Week F/U">
+		<Description>If first visit startdate is present, set 1 week follow up startdate to first visit + 7 days.</Description>
+		<Expression>SE_FIRSTVISIT.STARTDATE ne "" </Expression>
+	</RuleDef>
+	<RuleDef OID="SE_2WEEKFU_STARTDATE" Name="NIC5: Schedule 2 Week F/U">
+		<Description>If 1 week follow up startdate is present, set 2 week follow up startdate to 1 week follow up + 7 days.</Description>
+		<Expression>SE_1WEEKFU.STARTDATE ne "" </Expression>
+	</RuleDef>
+	<RuleDef OID="SE_MONTHLYFU_STARTDATE_R1" Name="NIC5: Schedule First Monthly F/U">
+		<Description>If 2 week follow up is "completed" or "data entry started", set first monthly follow up to 2 week follow up + 14 days.</Description>
+		<Expression>SE_2WEEKFU.STATUS eq "data_entry_started" or "completed"</Expression>
+	</RuleDef>
+	<RuleDef OID="SE_MONTHLYFU_STARTDATE_R2" Name="NIC5: Schedule Second Monthly F/U">
+		<Description>If first monthly follow up is "completed" or "data entry started", set second monthly follow up to first monthly + 28 days.</Description>
+		<Expression>SE_MONTHLYFU[1].STATUS eq "data_entry_started" or "completed"</Expression>
+	</RuleDef>
+</RuleImport>

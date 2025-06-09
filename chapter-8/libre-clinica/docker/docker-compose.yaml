@@ -1,0 +1,40 @@
+# Описание сервисов, которые будут запущены в кластере
+services:
+  # Приложение LibreClinica
+  libreclinica:
+    image: docker.io/library/my-libreclinica-image 
+    container_name: libreclinica # Название контейнера для отображения
+    hostname: libreclinica # Название хоста контейнера внутри сети docker-compose
+    restart: unless-stopped  # Контейнер будет перезапускаться в случае сбоя пока его не остановят
+    ports:
+      - 8080:8080
+    volumes:
+      - libreclinica-data:/usr/local/tomcat/libreclinica.data # Данные LibreClinica
+      - libreclinica-logs:/usr/local/tomcat/logs # Логи LibreClinica
+    depends_on:
+      - database
+    networks: 
+      - libreclinica-network # Название внутренней сети, в рамках которой будут находиться сервисы
+  # База данных
+  database:
+    image: postgres:14 # Используемый образ PostgreSQL 14
+    container_name: database # Название контейнера для отображения
+    hostname: database # Название хоста контейнера внутри сети docker-compose
+    restart: unless-stopped  # Контейнер будет перезапускаться в случае сбоя пока его не остановят
+    environment:
+      POSTGRES_PASSWORD: clinica
+      POSTGRES_USER: clinica
+      POSTGRES_DB: libreclinica
+    volumes:
+      - postgres-libreclinica-data:/var/lib/postgresql/data # Папка, где буду храниться данные Postgres
+    networks: 
+      - libreclinica-network # Название внутренней сети, в рамках которой будут находиться сервисы
+# Сети, доступные в кластере
+networks:
+  libreclinica-network:
+    driver: bridge
+# Подключаемые хранилища данных
+volumes: 
+  postgres-libreclinica-data:
+  libreclinica-data:
+  libreclinica-logs:

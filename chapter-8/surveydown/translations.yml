@@ -1,0 +1,23 @@
+# Surveydown translations template
+# Edit the values below to customize system messages
+# Keep the structure and keys unchanged
+ru:
+  cancel: Отмена
+  confirm_exit: Подтвердите Выход
+  sure_exit: Вы хотите завершить опрос?
+  submit_exit: Отправить и закрыть
+  warning: Внимание!
+  required: Пожалуйста, заполните все обязательные вопросы, чтобы продолжить
+  rating_title: Перед тем как уйти
+  rating_text: Оцените ваше впечатление от опроса
+  rating_scale: от 1-плохо до 5-превосходно
+  next: Следующая страница
+  exit: Завершить опрос
+  close_tab: Пожалуйста, закройте вкладку, чтобы завершить опрос.
+  choose_option: Выберите вариант из предложенных
+  click: Нажмите сюда
+  redirect: Перейти к
+  seconds: секунд
+  new_tab: Открыть в новой вкладке
+  redirect_error: 'Ошибка: Этот текст не ведет ни к какому вопросу'
+
