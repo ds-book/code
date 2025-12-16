@@ -301,16 +301,17 @@ sample(1:10, 3)
 sample(1:10, 3)
 sample(1:10, 3)
 
+general <- color
 
 # С помощью функции sample имитируется работа исследователей, которые извлекают случайно 10 шаров из генеральной совокупности color.
-general[sample(1:10000, 10),]
-general[sample(1:10000, 10),]
-general[sample(1:10000, 10),]
+general[sample(1:10000, 10)]
+general[sample(1:10000, 10)]
+general[sample(1:10000, 10)]
 
 # Исследователи каждый раз подсчитывают долю red и blue.
-prop.table(table(general[sample(1:10000, 10),]))
+prop.table(table(general[sample(1:10000, 10)]))
 
-prop.table(table(general[sample(1:10000, 10),]))
+prop.table(table(general[sample(1:10000, 10)]))
 
 
 # Для автоматизации данного процесса представлена функция которая проводит данную манипуляцию 1000 раз и записывает доли red и blue в таблицу в соответствующие столбцы.
@@ -318,7 +319,7 @@ prop.table(table(general[sample(1:10000, 10),]))
 sample_data_frame <- data.frame(red = numeric(1000), blue = numeric(1000))
 # Каждый раз извлекается случайно 10 значений из генеральной совокупности general и подсчитывается количество red и blue. Результат записывается в таблицу построчно (с 1 по 1000) в соответствующие колонки (red и blue). 
 for (i in 1:1000) {
-  x <- prop.table(table(general[sample(1:10000, 10),]))
+  x <- prop.table(table(general[sample(1:10000, 10)]))
   sample_data_frame[i, "red"] <- x["red"]
   sample_data_frame[i, "blue"] <- x["blue"]
 }
@@ -495,6 +496,7 @@ plot1
 library(epitools)
 # Расчет RR и 95%-го ДИ с использованием таблицы абсолютных частот.
 riskratio.wald(result)
+
 
 
 
